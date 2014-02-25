@@ -1,0 +1,7 @@
+"AddonInfo"
+{
+	"name"        "Notepad++"
+	"version"     "0.2"
+	"author_name" "Capster"
+	"override"    "0"
+}
