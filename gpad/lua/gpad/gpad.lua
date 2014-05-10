@@ -6,11 +6,33 @@ end
 
 include("gpad/loader.lua")
 
+GPad.Table = {}
+
+include("gpad/table.lua")
+
+if not glon then
+	include("gpad/glon.lua")
+end
+
 function GPad.PrintDebug(...)
 	Msg"[GPad] " print(...)
 end
-RunConsoleCommand("gpad_show")
 
 if SERVER then return end
 
+include("gpad/doctypes.lua")
+GPad.IncludeDir("documents", true)
+
+GPad.Stack = {}
+GPad.IncludeDir("stack", true)
+
 GPad.IncludeDir("ui", true)
+GPad.IncludeDir("ide", true)
+
+GPad.Decompiler = {}
+GPad.IncludeDir("decompiler", true)
+
+GPad.GLua = {}
+GPad.IncludeDir("compilers", true)
+
+--RunConsoleCommand("gpad_show")
