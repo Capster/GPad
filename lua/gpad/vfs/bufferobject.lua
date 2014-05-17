@@ -29,6 +29,21 @@ function META:RemoveElement(numID)
 	table.remove(self.Buffer, numID)
 end
 
+function META:GetSize(tblBuffer)
+	local size = 0
+	for k,v in pairs(self:GetBuffer()) do
+		if type(v) == "string" then
+			size = size + v:byte()
+		elseif type(v) == "number" then
+			size = size + math.ceil(v / 0x8)
+		elseif type(v) == "boolean" then
+			size = size + 1
+		end
+	end
+	return size
+end
+
+
 -- Push
 
 function META:PushString(strString)
