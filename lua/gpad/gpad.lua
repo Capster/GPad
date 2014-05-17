@@ -1,4 +1,5 @@
 GPad = {}
+GPad.DEVMODE = true
 
 if not Metro then 
 	include("autorun/metro.lua")
@@ -6,8 +7,12 @@ end
 
 include("gpad/loader.lua")
 
-GPad.Table = {}
+GPad.VFS = {}
 
+include("gpad/vfs.lua")
+GPad.IncludeDir("vfs", true, "sh")
+
+GPad.Table = {}
 include("gpad/table.lua")
 
 if not glon then
@@ -35,9 +40,5 @@ GPad.IncludeDir("decompiler", true)
 
 GPad.GLua = {}
 GPad.IncludeDir("compilers", true)
-
-GPad.VFS = {}
-include("gpad/vfs.lua")
-GPad.IncludeDir("vfs", true)
 
 --RunConsoleCommand("gpad_show")
