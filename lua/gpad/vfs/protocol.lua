@@ -25,10 +25,11 @@ function GPad.VFS.Protocol:Send(strName, entPlayer, ...)
 	end
 	net.Start(strName)
 	
-	inBuffer = self.MakeBuffer(...)
+	local tblMsg = {...}
+	local lenMsg = GPad.VFS.Protocol.GetTableSize(tblMsg)
 	-- <-- Some shit goes here...
-	net.WriteTable(inBuffer)
-	
+	net.WriteTable(tblMsg)
+	net.WriteInt(lenMsg, 0x20)
 	if CLIENT then
 		return net.SendToServer()
 	else
@@ -41,8 +42,14 @@ function GPad.VFS.Protocol:Send(strName, entPlayer, ...)
 	
 end
 
-function GPad.VFS.Protocol:Recieve(strName, funcCallback)
-	net.Recieve(strName, function(numLength, entPlayer)
-		funcCallback(inBuffer, numLength, entPlayer)
+function GPad.VFS.Protocol:Receive(strName, funcCallback)
+	net.Receive(strName, function(numLength, entPlayer)
+		local setupBuffer = GPad.VFS.Protocol.MakeBuffer(net.ReadTable()) 
+		local len = net.ReadInt(0x20) -- NumLength not working with meta tables :O
+		
+		GPad.VFS.Debug("Packet Size of "..strName.." is "..string.NiceSize( len / 0x8 ))
+		funcCallback(setupBuffer, len, entPlayer)
 	end)	
 end
+
+
