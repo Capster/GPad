@@ -64,6 +64,19 @@ function META:PushBool(boolBool)
 	self:AddElement(boolBool)
 end
 
+function META:PushVector(vecVector)
+	self:AddElement(vecVector)
+end
+
+function META:PushAngle(angAngle)
+	self:AddElement(angAngle)
+end
+
+function META:PushEntity(entEntity)
+	self:AddElement(entEntity)
+end
+
+
 -- Pull
 
 function META:PullNextByType(strType)
@@ -91,6 +104,18 @@ function META:PullBool()
 	return self:PullNextByType("boolean")
 end
 
+function META:PullVector()
+	return self:PullNextByType("Vector")
+end
+
+function META:PullAngle()
+	return self:PullNextByType("Angle")
+end
+
+function META:PullEntity()
+	return self:PullNextByType("Entity")
+end
+
 function GPad.VFS.Protocol.GetTableSize(tblTable)	
 	local size = 0
 	
@@ -103,6 +128,10 @@ function GPad.VFS.Protocol.GetTableSize(tblTable)
 			size = size + math.ceil(v / 0x8)
 		elseif type(v) == "boolean" then
 			size = size + 1
+		elseif type(v) == "Angle" or type(v) == "Vector" then
+			size = size + 10
+		elseif type(v) == "Entity" then
+			size = size + 4
 		end
 	end
 	return size
