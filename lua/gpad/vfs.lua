@@ -7,6 +7,3 @@ end
 function GPad.VFS.Error(...)
 	Msg"[VFS] " MsgC(Color(0xFF,0,0), ...) print""
 end
-
-
-
