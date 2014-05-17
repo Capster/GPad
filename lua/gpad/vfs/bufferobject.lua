@@ -22,6 +22,18 @@ function META:SetBuffer(tblBuffer)
 	self.Buffer = tblBuffer
 end
 
+function META:Compress()
+	self.Type = nil
+	self.__add = nil
+	self.__len = nil
+	self.AddElement = nil
+	self.RemoveElement = nil
+	self.PushString = nil
+	self.PushNumber = nil
+	self.PushTable = nil
+	self.PushBool = nil
+end
+
 function META:AddElement(objNewElement)
 	table.insert(self:GetBuffer(), objNewElement)
 end
