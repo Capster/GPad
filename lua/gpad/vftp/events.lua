@@ -1,64 +1,64 @@
 GPad.VFTP.Print("Not implemented")
 
---[[
-ABOR		Abort an active file transfer.
-ACCT		Account information.
-ADAT	RFC 2228	Authentication/Security Data
-ALLO		Allocate sufficient disk space to receive a file.
-APPE		Append.
-AUTH	RFC 2228	Authentication/Security Mechanism
-CCC	RFC 2228	Clear Command Channel
-CDUP		Change to Parent Directory.
-CONF	RFC 2228	Confidentiality Protection Command
-CWD		Change working directory.
-DELE		Delete file.
-ENC	RFC 2228	Privacy Protected Channel
-EPRT	RFC 2428	Specifies an extended address and port to which the server should connect.
-EPSV	RFC 2428	Enter extended passive mode.
-FEAT	RFC 2389	Get the feature list implemented by the server.
-HELP		Returns usage documentation on a command if specified, else a general help document is returned.
-LANG	RFC 2640	Language Negotiation
-LIST		Returns information of a file or directory if specified, else information of the current working directory is returned.
-LPRT	RFC 1639	Specifies a long address and port to which the server should connect.
-LPSV	RFC 1639	Enter long passive mode.
-MDTM	RFC 3659	Return the last-modified time of a specified file.
-MIC	RFC 2228	Integrity Protected Command
-MKD		Make directory.
-MLSD	RFC 3659	Lists the contents of a directory if a directory is named.
-MLST	RFC 3659	Provides data about exactly the object named on its command line, and no others.
-MODE		Sets the transfer mode (Stream, Block, or Compressed).
-NLST		Returns a list of file names in a specified directory.
-NOOP		No operation (dummy packet; used mostly on keepalives).
-OPTS	RFC 2389	Select options for a feature.
-PASS		Authentication password.
-PASV		Enter passive mode.
-PBSZ	RFC 2228	Protection Buffer Size
-PORT		Specifies an address and port to which the server should connect.
-PROT	RFC 2228	Data Channel Protection Level.
-PWD		Print working directory. Returns the current directory of the host.
-QUIT		Disconnect.
-REIN		Re initializes the connection.
-REST		Restart transfer from the specified point.
-RETR		Retrieve a copy of the file
-RMD		Remove a directory.
-RNFR		Rename from.
-RNTO		Rename to.
-SITE		Sends site specific commands to remote server.
-SIZE	RFC 3659	Return the size of a file.
-SMNT		Mount file structure.
-STAT		Returns the current status.
-STOR		Accept the data and to store the data as a file at the server site
-STOU		Store file uniquely.
-STRU		Set file transfer structure.
-SYST		Return system type.
-TYPE		Sets the transfer mode (ASCII/Binary).
-USER		Authentication username.
-XCUP	RFC 775	Change to the parent of the current working directory
-XMKD	RFC 775	Make a directory
-XPWD	RFC 775	Print the current working directory
-XRCP	RFC 743	
-XRMD	RFC 775	Remove the directory
-XRSQ	RFC 743	
-XSEM	RFC 737	Send, mail if cannot
-XSEN	RFC 737	Send to terminal]]
-
+GPad.VFTP.Flags = {
+	ABOR = 1,  -- Abort an active file transfer.
+	ACCT = 2,  -- Account information.
+	ADAT = 3,  -- Authentication/Security Data
+	ALLO = 4,  -- Allocate sufficient disk space to receive a file.
+	APPE = 5,  -- Append.
+	AUTH = 6,  -- Authentication/Security Mechanism
+	CCC  = 7,  -- Clear Command Channel
+	CDUP = 8,  -- Change to Parent Directory.
+	CONF = 9,  -- Confidentiality Protection Command
+	CWD  = 10, -- Change working directory.
+	DELE = 11, -- Delete file.
+	ENC  = 12, -- Privacy Protected Channel
+	EPRT = 13, -- Specifies an extended address and port to which the server should connect.
+	EPSV = 14, -- Enter extended passive mode.
+	FEAT = 15, -- Get the feature list implemented by the server.
+	HELP = 16, -- Returns usage documentation on a command if specified, else a general help document is returned.
+	LANG = 17, -- Language Negotiation
+	LIST = 18, -- Returns information of a file or directory if specified, else information of the current working directory is returned.
+	LPRT = 19, -- Specifies a long address and port to which the server should connect.
+	LPSV = 20, -- Enter long passive mode.
+	MDTM = 21, -- Return the last-modified time of a specified file.
+	MIC  = 22, -- Integrity Protected Command
+	MKD  = 23, -- Make directory.
+	MLSD = 24, -- Lists the contents of a directory if a directory is named.
+	MLST = 25, -- Provides data about exactly the object named on its command line, and no others.
+	MODE = 26, -- Sets the transfer mode (Stream, Block, or Compressed).
+	NLST = 27, -- Returns a list of file names in a specified directory.
+	NOOP = 28, -- No operation (dummy packet; used mostly on keepalives).
+	OPTS = 29, -- Select options for a feature.
+	PASS = 30, -- Authentication password.
+	PASV = 31, -- Enter passive mode.
+	PBSZ = 32, -- Protection Buffer Size
+	PORT = 33, -- Specifies an address and port to which the server should connect.
+	PROT = 34, -- Data Channel Protection Level.
+	PWD  = 35, -- Print working directory. Returns the current directory of the host.
+	QUIT = 36, -- Disconnect.
+	REIN = 37, -- Re initializes the connection.
+	REST = 38, -- Restart transfer from the specified point.
+	RETR = 39, -- Retrieve a copy of the file
+	RMD  = 40, -- Remove a directory.
+	RNFR = 41, -- Rename from.
+	RNTO = 42, -- Rename to.
+	SITE = 43, -- Sends site specific commands to remote server.
+	SIZE = 44, -- Return the size of a file.
+	SMNT = 45, -- Mount file structure.
+	STAT = 46, -- Returns the current status.
+	STOR = 47, -- Accept the data and to store the data as a file at the server site
+	STOU = 48, -- Store file uniquely.
+	STRU = 49, -- Set file transfer structure.
+	SYST = 50, -- Return system type.
+	TYPE = 51, -- Sets the transfer mode (ASCII/Binary).
+	USER = 52, -- Authentication username.
+	XCUP = 53, -- Change to the parent of the current working directory
+	XMKD = 54, -- Make a directory
+	XPWD = 55, -- Print the current working directory
+	XRCP = 56, -- IDK
+	XRMD = 57, -- Remove the directory
+	XRSQ = 58, -- IDK
+	XSEM = 59, -- Send, mail if cannot
+	XSEN = 60, -- Send to terminal
+}
