@@ -86,6 +86,7 @@ function META:PullNextByType(strType)
 			return curElement
 		end
 	end
+	GPad.VFS.Error("Couldn't read type "..strType)
 end
 
 function META:PullString()
