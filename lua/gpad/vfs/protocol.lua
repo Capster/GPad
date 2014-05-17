@@ -1,4 +1,3 @@
-GPad.VFS.Protocol = {}
 GPad.VFS.Protocol.Channels = {}
 
 function GPad.VFS.Protocol:RegisterChannel(strName)
@@ -19,7 +18,7 @@ function GPad.VFS.Protocol:UnregisterChannel(strName)
 	end
 end
 
-function GPad.VFS.Protocol:Receive(strName, funcCallback, entPlayer)
+function GPad.VFS.Protocol:Send(strName, funcCallback, entPlayer)
 	if SERVER and not GPad.VFS.Protocol.Channels[strName] then
 		GPad.VFS.Error("Unpooled channel name: "..strName)
 		return false
@@ -38,9 +37,8 @@ function GPad.VFS.Protocol:Receive(strName, funcCallback, entPlayer)
 end
 
 function GPad.VFS.Protocol:Send(strName, ...)
-	net.Receive(strName, function(numLength, entPlayer)
+	net.Send(strName, function(numLength, entPlayer)
 		inBuffer = {}
 		funcCallback(inBuffer, numLength, entPlayer)
-	end)
-	
+	end)	
 end

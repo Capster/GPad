@@ -8,6 +8,7 @@ end
 include("gpad/loader.lua")
 
 GPad.VFS = {}
+GPad.VFS.Protocol = {}
 
 include("gpad/vfs.lua")
 GPad.IncludeDir("vfs", true, "sh")
