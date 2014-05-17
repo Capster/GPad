@@ -1,19 +1,20 @@
 local META = {}
+
 META.__index = META
- 
 META.Type = "Buffer Object"
 
-META.Buffer = {}
-
 function META:__len()
-	return #self.Buffer
+	return #self:GetBuffer()
 end
 
 function META:__add(newBuffer)
-	return table.Add(self.Buffer, newBuffer)
+	return table.Add(self:GetBuffer(), newBuffer)
 end
 
 function META:GetBuffer()
+	if not self.Buffer then
+		self.Buffer = {}
+	end
 	return self.Buffer
 end
 
@@ -22,27 +23,16 @@ function META:SetBuffer(tblBuffer)
 end
 
 function META:AddElement(objNewElement)
-	table.insert(self.Buffer, objNewElement)
+	table.insert(self:GetBuffer(), objNewElement)
 end
 
 function META:RemoveElement(numID)
-	table.remove(self.Buffer, numID)
+	table.remove(self:GetBuffer(), numID)
 end
 
-function META:GetSize(tblBuffer)
-	local size = 0
-	for k,v in pairs(self:GetBuffer()) do
-		if type(v) == "string" then
-			size = size + v:byte()
-		elseif type(v) == "number" then
-			size = size + math.ceil(v / 0x8)
-		elseif type(v) == "boolean" then
-			size = size + 1
-		end
-	end
-	return size
+function META:GetSize()
+	return GPad.VFS.Protocol.GetTableSize(self:GetBuffer())
 end
-
 
 -- Push
 
@@ -89,9 +79,27 @@ function META:PullBool()
 	return self:PullNextByType("boolean")
 end
 
+function GPad.VFS.Protocol.GetTableSize(tblTable)	
+	local size = 0
+	
+	for k,v in pairs(tblTable) do
+		if type(v) == "table" then
+			size = size + GPad.VFS.Protocol.GetTableSize(v)
+		elseif type(v) == "string" then
+			size = size + v:byte()
+		elseif type(v) == "number" then
+			size = size + math.ceil(v / 0x8)
+		elseif type(v) == "boolean" then
+			size = size + 1
+		end
+	end
+	return size
+end
 
 function GPad.VFS.Protocol.MakeBuffer(tblBuffer)
 	local inBuffer = setmetatable({}, META)
+	inBuffer.Buffer = {}
+	
 	inBuffer:SetBuffer(tblBuffer)
 	
 	return inBuffer
