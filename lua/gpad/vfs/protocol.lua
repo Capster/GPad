@@ -29,7 +29,7 @@ function GPad.VFS.Protocol:Receive(strName, funcCallback, entPlayer)
 		return net.SendToServer()
 	else
 		if entPlayer then
-			return net.Send(entPlayer)
+			return IsValid(entPlayer) and net.Send(entPlayer)
 		else
 			return net.Broadcast()
 		end
