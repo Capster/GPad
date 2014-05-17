@@ -52,7 +52,8 @@ end
 function META:PullNextByType(strType)
 	for curIndex, curElement in pairs(self:GetBuffer()) do
 		if type(curElement) == strType then
-			return curElement, table.remove(self:GetBuffer(), curIndex)
+			table.remove(self:GetBuffer(), curIndex)
+			return curElement
 		end
 	end
 end
