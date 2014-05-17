@@ -21,7 +21,7 @@ end
 
 function GPad.VFS.Protocol:Receive(strName, funcCallback, entPlayer)
 	if SERVER and not GPad.VFS.Protocol.Channels[strName] then
-		GPad.VFS.Error("unpooled channel name: "..strName)
+		GPad.VFS.Error("Unpooled channel name: "..strName)
 		return false
 	end
 	net.Start(strName)
