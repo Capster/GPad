@@ -21,6 +21,7 @@ end
 if SERVER then return end
 
 include("gpad/doctypes.lua")
+
 GPad.IncludeDir("documents", true)
 
 GPad.Stack = {}
@@ -34,5 +35,9 @@ GPad.IncludeDir("decompiler", true)
 
 GPad.GLua = {}
 GPad.IncludeDir("compilers", true)
+
+GPad.VFS = {}
+include("gpad/vfs.lua")
+GPad.IncludeDir("vfs", true)
 
 --RunConsoleCommand("gpad_show")
