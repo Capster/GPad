@@ -22,7 +22,7 @@ if SERVER then
 	
 	GPad.VFS.Protocol:Receive(Tag, function(inBuffer, _, entPlayer)
 		if entPlayer.IsResticted and entPlayer:IsResticted() or entPlayer:IsSuperAdmin() then
-			GPad.VFTP.Print(entPlayer, "Success")
+			GPad.VFTP.Print(entPlayer, " -> Success")
 			GPad.VFTP.Session:Start(entPlayer) -- Starting New Session (Fix Timeout, pls)
 			return 
 		end
