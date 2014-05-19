@@ -26,4 +26,4 @@ function GPad.VFTP.Session:Timeout(entPlayer)
 	return GPad.VFTP.Debug("Ending Session for "..tostring(entPlayer).." (Timeout)")
 end
 
-GPad.VFTP.Session:Start(player.GetByID(1))
+--GPad.VFTP.Session:Start(player.GetByID(1))

@@ -168,10 +168,6 @@ function PANEL:PerformLayout ()
 	end
 end
 
-function PANEL:Think()
-	DFrame.Think(self)
-end
-
 function PANEL:SetNotepad(notepad)
 	return true
 end
