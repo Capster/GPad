@@ -19,6 +19,15 @@ function META:GetName()
 	return self.Name
 end
 
+function META:SetFileSystem(tblFS)
+	self.FileSystem = tblFS
+end
+
+function META:GetFileSystem()
+	return self.FileSystem or {}
+end
+
+
 function GPad.VFS.MakeRoot(strName)
 	local Root = setmetatable({}, META)
 	

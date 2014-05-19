@@ -1,6 +1,6 @@
 if CLIENT then return end
 GPad.VFTP.Session = {}
-GPad.VFTP.Session.TimeOut = 3
+GPad.VFTP.Session.TimeOut = 100000
 
 function GPad.VFTP.Session:Start(entPlayer)
 	if not entPlayer:GetVFTPStatus("AUTH") then

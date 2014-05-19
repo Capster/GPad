@@ -11,7 +11,11 @@ GPad.VFS = {}
 GPad.VFS.Protocol = {}
 
 include("gpad/vfs.lua")
-GPad.IncludeDir("vfs", true, "sh")
+include("gpad/vfs/bufferobject.lua")
+include("gpad/vfs/protocol.lua")
+include("gpad/vfs/root.lua")
+include("gpad/vfs/file.lua")
+include("gpad/vfs/copyfs.lua")
 
 GPad.VFTP = {}
 

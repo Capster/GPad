@@ -1,4 +1,4 @@
-GPad.VFTP.Print("Not implemented")
+-- GPad.VFTP.Print("Not implemented")
 
 GPad.VFTP.Flags = {
 	ABOR = 1,  -- Abort an active file transfer.
