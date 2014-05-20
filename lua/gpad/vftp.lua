@@ -13,3 +13,13 @@ end
 function GPad.VFTP.Error(...)
 	MsgC(GPad.VFTP.Color, "[VFTP] ") MsgC(Color(0xFF,0,0), ...) print""
 end
+
+function GPad.VFTP.Panic(err)
+--[[for k,v in pairs(GPad.VFTP.Session.Connections) do
+		v = nil
+	end]]
+	for k,v in pairs(player.GetAll()) do
+		GPad.VFTP.Session:End(v, "Kernel panic")
+	end
+	GPad.VFTP.Error("KERNEL PANIC: "..err)
+end
