@@ -1,5 +1,5 @@
 GPad.ContainerType = {}
-GPad.FileTypes = {}
+GPad.FileTypes = GPad.Consturctor()
 GPad.FileTypes.Types = {}
 
 function GPad.FileTypes:CreateType(strName, tblContent)

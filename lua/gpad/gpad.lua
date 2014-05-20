@@ -8,8 +8,8 @@ end
 include("gpad/loader.lua")
 include("gpad/constructor.lua")
 
-GPad.VFS = {}
-GPad.VFS.Protocol = {}
+GPad.VFS = GPad.Consturctor()
+GPad.VFS.Protocol = GPad.Consturctor()
 
 include("gpad/vfs.lua")
 include("gpad/vfs/bufferobject.lua")
@@ -18,16 +18,16 @@ include("gpad/vfs/root.lua")
 include("gpad/vfs/file.lua")
 include("gpad/vfs/copyfs.lua")
 
-GPad.VFTP = {}
+GPad.VFTP = GPad.Consturctor()
 
 include("gpad/vftp.lua")
 GPad.IncludeDir("vftp", true, "sh")
 
 GPad.Table = {}
-include("gpad/table.lua")
+include("gpad/lib/table.lua")
 
 if not glon then
-	include("gpad/glon.lua")
+	include("gpad/lib/glon.lua")
 end
 
 function GPad.PrintDebug(...)
