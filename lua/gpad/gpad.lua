@@ -6,6 +6,7 @@ if not Metro then
 end
 
 include("gpad/loader.lua")
+include("gpad/constructor.lua")
 
 GPad.VFS = {}
 GPad.VFS.Protocol = {}
