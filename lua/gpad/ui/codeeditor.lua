@@ -1,23 +1,15 @@
 local PANEL = {}
 
 PANEL.url="http://metastruct.github.io/lua_editor/"
+
+fastlua.Bind(PANEL, "Ready")
+fastlua.Bind(PANEL, "Saving")
+
 function PANEL:LoadURL()
-
 	self.HTML:OpenURL(self.url)
-
-
-	self.loading:SetVisible(true)
-
-	-- magic fix
-	/*timer.Simple(0.3,function()
-		local dh = vgui.Create'DHTML'
-		timer.Simple(2,function() dh:Remove() end)
-	end)*/
-	
+	self.loading:SetVisible(true)	
 end
 
-AccessorFunc(PANEL,"m_bReady","Ready",FORCE_BOOL)
-AccessorFunc(PANEL,"m_bSaving","Saving",FORCE_BOOL)
 PANEL.Modes = {
 	"lua",
 	"javascript",
@@ -62,36 +54,36 @@ PANEL.Modes = {
 }
 
 PANEL.Themes = {
-"chrome",
-"clouds",
-"crimson_editor",
-"dawn",
-"dreamweaver",
-"eclipse",
-"github",
-"solarized_light",
-"textmate",
-"tomorrow",
-"xcode",
-"ambiance",
-"chaos",
-"clouds_midnight",
-"cobalt",
-"idle_fingers",
-"kr_theme",
-"merbivore",
-"merbivore_soft",
-"mono_industrial",
-"monokai",
-"pastel_on_dark",
-"solarized_dark",
-"terminal",
-"tomorrow_night",
-"tomorrow_night_blue",
-"tomorrow_night_bright",
-"tomorrow_night_eighties",
-"twilight",
-"vibrant_ink",
+	"chrome",
+	"clouds",
+	"crimson_editor",
+	"dawn",
+	"dreamweaver",
+	"eclipse",
+	"github",
+	"solarized_light",
+	"textmate",
+	"tomorrow",
+	"xcode",
+	"ambiance",
+	"chaos",
+	"clouds_midnight",
+	"cobalt",
+	"idle_fingers",
+	"kr_theme",
+	"merbivore",
+	"merbivore_soft",
+	"mono_industrial",
+	"monokai",
+	"pastel_on_dark",
+	"solarized_dark",
+	"terminal",
+	"tomorrow_night",
+	"tomorrow_night_blue",
+	"tomorrow_night_bright",
+	"tomorrow_night_eighties",
+	"twilight",
+	"vibrant_ink",
 }
 function PANEL:Init()
 	self.Content = ""
@@ -99,13 +91,11 @@ function PANEL:Init()
 	self.m_bSaving = true
 	self:SetCookieName("lua_editor")
 	local theme = self:GetCookie("theme")
-	self.theme = theme and theme~="" and theme or "default"
+	self.theme = theme and theme ~= "" and theme or "default"
 
-	-- TODO: How to remove if the panel gets removed?
-	hook.Add( "ShutDown", self,function()
+	hook.Add("ShutDown", self,function()
 		if not ValidPanel(self) or not self.HTML then return end
-		--self:Save()
-	end )
+	end)
 
 end
 
@@ -139,19 +129,10 @@ function PANEL:InitRest()
 		function HTML.OnFocusChanged(HTML,gained)
 			self:OnFocus(gained)
 		end
-		
-		--[[
-		local HTML_OnCallback= HTML.OnCallback
-		HTML.OnCallback=function(HTML,obj,func,...)
-			print("CB",obj,func)
-			return HTML_OnCallback(HTML,obj,func,...)
-		end--]]
-		
-		-- Bind shit
+
 		local function bind(name)
 			local func = self[name]
 			if not func then error"???" end
-			--print("ADDFUNC",name)
 			HTML:AddFunction("gmodinterface", name, function(...)
 				func(self,HTML,...)
 			end)
@@ -161,7 +142,6 @@ function PANEL:InitRest()
 		bind "OnCode"
 		bind "OnLog"
 		bind "alert"
-		--bind "nop"
 		
 	self:InvalidateLayout()
 	self.HTML:InvalidateLayout(true)
@@ -174,8 +154,6 @@ end
 function PANEL:alert(str)
 	Derma_Message(str, "Alert", "OK")
 end
-
-function PANEL:nop()end
 
 function PANEL:ReloadPage(full)
 	local str = 'console.log("Reloading..."); location.reload('
@@ -191,7 +169,7 @@ function PANEL:OnLog(html,...)
 end
 
 function PANEL:OnCode(html,code)
-	self.__nextvalidate=RealTime()+0.2 -- now using delay on OnKeyCodePressed
+	self.__nextvalidate=RealTime() + 0.2
 	
 	local tid = 'save'..tostring(self.filename)
 	if not self._timercreated then
@@ -209,12 +187,11 @@ function PANEL:OnCode(html,code)
 end
 
 
-function PANEL:Paint() -- hacky delayed loading..
+function PANEL:Paint()
 	if self.__loaded then return end
 	self.__loaded = true
 	self.Paint=nil
 	self:InitRest()
-	--draw.RoundedBox( 0, 0, 0, self:GetWide(), self:GetTall(), Color( 0, 0, 0, 150 ) )
 end
 
 function PANEL:Think()
@@ -283,7 +260,6 @@ local function encode(str)
 	return str:gsub('\\',[[\\]]):gsub('"',[[\"]]):gsub('\r',[[\r]]):gsub('\n',[[\n]])
 end
 
----------------------------------
 function PANEL:SetCode(content)
 	content = content or ""
 	if not self:GetReady() then
@@ -331,22 +307,18 @@ function PANEL:OnReady()
 	end
 	
 	self:SetFontSize(16)
-	self:SetTheme( self.theme )
+	self:SetTheme(self.theme)
 	self:OnLoaded()
 
 	self:InvalidateLayout()
-	--self:TellParentAboutSizeChanges()
 	self.HTML:InvalidateLayout()
 	self:GetParent():InvalidateLayout()
-	--self.HTML:TellParentAboutSizeChanges()
-	
-	
 end
 
 function PANEL:OnFocus(gained) end
 function PANEL:OnLoaded() end
 
-function PANEL:SetTheme( theme )
+function PANEL:SetTheme(theme)
 	if table.HasValue(self.Themes,theme) then
 		self.theme = theme
 		self:SetCookie("theme",theme)
@@ -358,14 +330,14 @@ function PANEL:SetTheme( theme )
 	return false
 end
 
-function PANEL:ShowBinds(  )
+function PANEL:ShowBinds()
 	self.HTML:Call("ShowBinds()")
 end
-function PANEL:ShowMenu(  )
+function PANEL:ShowMenu()
 	self.HTML:Call("ShowMenu()")
 end
 
-function PANEL:SetMode( mode )
+function PANEL:SetMode(mode)
 	if table.HasValue(self.Modes,mode) then
 		self.mode = mode
 		if not self:GetReady() then return true end
@@ -384,7 +356,7 @@ function PANEL:GoErrorLine()
 	self.HTML:Call(str)
 end
 
-function PANEL:SetError( err )
+function PANEL:SetError(err)
 	if err then
 		local matchage, txt=err:match("^lua_editor%:(%d+)%:(.*)")
 		
@@ -424,7 +396,6 @@ function PANEL:Store( code )
 		return false
 	end
 	return false
-
 end
 
 function PANEL:Load()
