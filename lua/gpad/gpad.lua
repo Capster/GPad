@@ -40,7 +40,6 @@ include("gpad/doctypes.lua")
 
 GPad.IncludeDir("documents", true)
 
-GPad.Stack = {}
 GPad.IncludeDir("stack", true)
 
 GPad.IncludeDir("ui", true)

@@ -1,3 +1,5 @@
+GPad.Stack = GPad.Consturctor()
+
 local META = {}
 META.__index = META
 
