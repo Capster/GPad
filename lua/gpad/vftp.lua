@@ -15,11 +15,8 @@ function GPad.VFTP.Error(...)
 end
 
 function GPad.VFTP.Panic(err)
---[[for k,v in pairs(GPad.VFTP.Session.Connections) do
-		v = nil
-	end]]
 	for k,v in pairs(player.GetAll()) do
-		GPad.VFTP.Session:End(v, "Kernel panic")
+		GPad.VFTP.Session:End(v, "Kernel panic: "..err)
 	end
-	GPad.VFTP.Error("KERNEL PANIC: "..err)
+	GPad.VFTP.Error("Kernel panic: "..err)
 end
