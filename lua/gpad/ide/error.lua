@@ -1,4 +1,4 @@
-local function add_line(strType, strIcon, strContent, numErrorCode)
+local function add_line(panelEditor, strType, strIcon, strContent, numErrorCode)
 	if GPad.Output then
 		--GPad.Output:Clear()
 		local emitter = GPad.Output:AddLine( strType, strContent or "Unknown Error", numErrorCode or "" )
@@ -8,23 +8,24 @@ local function add_line(strType, strIcon, strContent, numErrorCode)
 			menu:AddOption("Copy to clipboard", function()
 				SetClipboardText(emitter:GetColumnText(2))
 			end):SetIcon ("icon16/page_white_copy.png")
-			
-			menu:AddOption("Goto error line", function() 
-				line:GoErrorLine()
-			end):SetIcon ("icon16/arrow_right.png")
+			if ValidPanel(panelEditor) then
+				menu:AddOption("Goto error line", function() 
+						panelEditor:GoErrorLine()
+				end):SetIcon ("icon16/arrow_right.png")
+			end
 			menu:Open()
 		end
 	end
 end
 
-function GPad.Error(strError, numErrorCode)
-	add_line("Error", "icon16/cancel.png", strError, numErrorCode)
+function GPad.Error(panelEditor, strError, numErrorCode)
+	add_line(panelEditor, "Error", "icon16/cancel.png", strError, numErrorCode)
 end
 
-function GPad.Warning(strWarning, numWarningCode)
-	add_line("Warning", "icon16/error.png", strWarning, numWarningCode)
+function GPad.Warning(panelEditor, strWarning, numWarningCode)
+	add_line(panelEditor, "Warning", "icon16/error.png", strWarning, numWarningCode)
 end
 
-function GPad.PrintDebug(strDebug, numDebugId)
-	add_line("Debug", "icon16/cog.png", strDebug, numDebugId)
+function GPad.PrintDebug(panelEditor, strDebug, numDebugId)
+	add_line(panelEditor, "Debug", "icon16/cog.png", strDebug, numDebugId)
 end

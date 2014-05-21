@@ -363,20 +363,14 @@ function PANEL:SetError(err)
 		local text = matchage and txt and ('Line '..matchage..':'..txt) or err or ""
 		
 		text=text:gsub("\r","\\r"):gsub("\n","\\n")	
-		GPad.Error(text)
+		GPad.Error(self, text)
 		local match=err:match(" at line (%d)%)") or matchage
 		self.errorline=match and tonumber(match) or 1
 		self:SetErr(self.errorline,err)
 	else
 		self.errorline=0
 		self:ClearErr()
-		if GPad.Output then
-			GPad.Output:Clear()
-			--GPad.Output:AddLine( "Error", "Unknown Error", "" ):SetIcon("icon16/cancel.png")
-		end
 	end
-	
-	
 end
 
 
@@ -414,4 +408,4 @@ function PANEL:SetContent(...)
 	self:SetCode(...)
 end
 
-vgui.Register("GPadEditor", PANEL, "EditablePanel")
+Metro.Register("GPadEditor", PANEL, "EditablePanel")

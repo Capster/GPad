@@ -7,7 +7,7 @@ function GPad:LoadWorkspace()
 		GPad.Container:AddTab(v[1], "New", v[2] or nil, v[3] or GPad.Orientation.Top)
 	end
 	--GPad.PrintTable(content)
-	GPad.PrintDebug("Loading workspace...")
+	GPad.PrintDebug(nil, "Loading workspace...")
 end
 
 function GPad:SaveWorkspace()
@@ -25,7 +25,7 @@ function GPad:SaveWorkspace()
 	
 	CONTENT = glon.encode(CONTENT)
 	file.Write(loadpath, CONTENT)
-	--GPad.PrintDebug("Saving workspace...")
+	GPad.PrintDebug(nil, "Saving workspace...")
 end
 
 timer.Create("GPad.UpdateTick", 3, 0, function() 
