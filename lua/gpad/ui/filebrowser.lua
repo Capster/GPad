@@ -50,6 +50,17 @@ function PANEL:Init ()
 		self.SearchBox:DockMargin(0, 5, 10, 5)
 		self.SearchBox:SetWide(110)
 		
+		local btn = self.SearchBox:Add("DImageButton")
+		btn:SetImage("icon16/magnifier.png")
+		btn:SetText("")
+		btn:Dock(RIGHT)
+		btn:DockMargin(4, 2, 4, 2)
+		btn:SetSize(16, 16)
+		btn:SetTooltip("Press to search")
+		btn.DoClick = function()
+			-- ????????
+		end
+		
 		self.FolderTree = Metro.Create("MetroTree", self)
 		self.FolderTree:Dock(LEFT)
 		self.FolderTree:SetSize(190, 10)
@@ -57,8 +68,8 @@ function PANEL:Init ()
 		
 		self.FolderTree.OnNodeSelected = function(_, node)
 			if not node:GetFolder() then return end
-			print("debug"..node:GetFolder())
 			self.Files:SetFolder(node:GetFolder())
+			self.PathEntry:SetText(util.RelativePathToFull(node:GetFolder()))
 			--self
 		end
 		
