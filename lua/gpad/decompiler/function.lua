@@ -3,7 +3,7 @@ local META = {}
 META.__index = META
 
 function META:__tostring()
-	return string.format("function[%s]", string.sub(string.format("%p", self:GetFunction()), 3))
+	return string.format("function[%s]", string.format("%p", self:GetFunction()))
 end
 
 function META:GetStartLine()
