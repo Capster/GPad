@@ -20,6 +20,10 @@ function self:Init()
 	function GPad:GetStd() -- GPad:GetStd():WriteLine("test")
 		return debug
 	end
+
+	function GPad:SetStd(panelStd)
+		debug = panelStd -- For epoe overrid
+	end
 	return debug
 end
 
