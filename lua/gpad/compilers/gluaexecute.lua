@@ -8,7 +8,7 @@ function GPad.GLua:SessionStart(strCode)
 	code = code .. "local MsgC        = MsgC "
 	code = code .. "local print       = print "
 	code = code .. strCode
-	local f = CompileString (code, "@developer_"..LocalPlayer():Nick())
+	local f = CompileString (code, (LocalPlayer().GetUserGroup and LocalPlayer():GetUserGroup() or "developer").."_"..LocalPlayer():Nick())
 
 	local old_ErrorNoHalt = ErrorNoHalt
 	local old_Msg         = Msg
@@ -17,6 +17,8 @@ function GPad.GLua:SessionStart(strCode)
 	local old_print       = print
 	
 	GPad.Output:Clear()
+	
+	local id = util.CRC(strCode)
 	
 	ErrorNoHalt = function(text)
 		GPad.Warning(text)
@@ -40,8 +42,7 @@ function GPad.GLua:SessionStart(strCode)
 	end
 
 	xpcall(f, function(message)
-		GPad.Error(message)
-		--GPad.Error(GPack.StackTrace (nil, 3))
+		GPad.Error(message) -- ToDo: Stack trace
 		old_ErrorNoHalt(message)
 	end)
 
@@ -50,4 +51,10 @@ function GPad.GLua:SessionStart(strCode)
 	MsgN        = old_MsgN
 	MsgC        = old_MsgC
 	print       = old_print
+	
+	return id
+end
+
+function GPad.GLua:SessionEnd(numID)
+	-- ToDo: Local stream
 end
