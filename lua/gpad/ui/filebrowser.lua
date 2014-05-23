@@ -73,6 +73,33 @@ function PANEL:Init ()
 			--self
 		end
 		
+		self.FolderTree.DoRightClick = function(_, node)
+			if not node:GetFolder() then return end
+			local menu = DermaMenu()
+				menu:AddOption("Refresh", function()
+					
+				end):SetIcon("icon16/arrow_refresh.png")
+				
+				menu:AddSpacer()
+				
+				menu:AddOption("Copy"):SetIcon("icon16/page_copy.png")
+				menu:AddOption("Cut"):SetIcon("icon16/cut.png")
+				menu:AddOption("Paste"):SetIcon("icon16/paste_plain.png")
+				
+				menu:AddSpacer()
+				
+				menu:AddOption("Create New Folder"):SetIcon("icon16/folder_add.png")
+				menu:AddOption("Remove"):SetIcon("icon16/folder_delete.png")
+				menu:AddOption("Rename"):SetIcon("icon16/folder_edit.png")
+				
+				menu:AddSpacer()
+				
+				menu:AddOption("Edit Permissions", function()
+					GPad:GetPermissionMenu():SetVisible(true)
+				end):SetIcon("icon16/folder_user.png")
+			menu:Open()
+		end
+		
 		self.ServerPath = self.FolderTree:AddNode("Server")
 		self.ServerPath:SetIcon("icon16/server.png")
 		self.ServerPath:AddNode("nope")
