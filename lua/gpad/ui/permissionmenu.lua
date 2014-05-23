@@ -38,8 +38,8 @@ function PANEL:AddUserToList(strSteamID, enumAccess)
 	steamworks.RequestPlayerInfo( commid )
 	
 	timer.Simple( 1, function() -- waiting for steam servers
-		self.Users:AddLine(steamworks.GetPlayerName( commid ) or "Steam Is Down!", online, table.Random{"Owner", "Access Denied"})
-	end )
+		self.Users:AddLine(steamworks.GetPlayerName( commid ) or "Steam Is Down!", online, GPad.Access[3]) -- Timeout :(
+	end)
 end
 
 function PANEL:Think()
