@@ -70,14 +70,13 @@ function PANEL:Init ()
 			if not node:GetFolder() then return end
 			self.Files:SetFolder(node:GetFolder())
 			self.PathEntry:SetText(util.RelativePathToFull(node:GetFolder()))
-			--self
 		end
 		
 		self.FolderTree.DoRightClick = function(_, node)
 			if not node:GetFolder() then return end
 			local menu = DermaMenu()
 				menu:AddOption("Refresh", function()
-					
+					--node:GetRoot():MakeFolder("lua", "GAME")
 				end):SetIcon("icon16/arrow_refresh.png")
 				
 				menu:AddSpacer()
@@ -95,7 +94,10 @@ function PANEL:Init ()
 				menu:AddSpacer()
 				
 				menu:AddOption("Edit Permissions", function()
-					GPad:GetPermissionMenu():SetVisible(true)
+					local menu = GPad:GetPermissionMenu()
+					menu:SetVisible(true)
+					menu:SetFolder(node:GetFolder())
+					menu:SetSide(node.Side or "Bug")
 				end):SetIcon("icon16/folder_user.png")
 			menu:Open()
 		end
@@ -103,10 +105,12 @@ function PANEL:Init ()
 		self.ServerPath = self.FolderTree:AddNode("Server")
 		self.ServerPath:SetIcon("icon16/server.png")
 		self.ServerPath:AddNode("nope")
+		self.ServerPath.Side = "Server"
 		
 		self.PlayerPath = self.FolderTree:AddNode(LocalPlayer():Nick())
 		self.PlayerPath:SetIcon("icon16/user.png")
 		self.PlayerPath:MakeFolder("lua", "GAME")
+		self.PlayerPath.Side = LocalPlayer():Nick()
 		
 		self.Files = Metro.Create("MetroListView", self)
 		self.Files:Dock(FILL)
