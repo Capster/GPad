@@ -43,12 +43,24 @@ function PANEL:Init ()
 		
 		self.PathEntry = Metro.Create("MetroTextEntry", self.Header)
 		self.PathEntry:Dock(FILL)
-		self.PathEntry:DockMargin(10, 5, 50, 5)
+		self.PathEntry:DockMargin(10, 5, 5, 5)
+		
+		self.SearchBox = Metro.Create("MetroTextEntry", self.Header)
+		self.SearchBox:Dock(RIGHT)
+		self.SearchBox:DockMargin(0, 5, 10, 5)
+		self.SearchBox:SetWide(110)
 		
 		self.FolderTree = Metro.Create("MetroTree", self)
 		self.FolderTree:Dock(LEFT)
 		self.FolderTree:SetSize(190, 10)
 		self.FolderTree:DockMargin(0, 0, 1, 0)
+		
+		self.FolderTree.OnNodeSelected = function(_, node)
+			if not node:GetFolder() then return end
+			print("debug"..node:GetFolder())
+			self.Files:SetFolder(node:GetFolder())
+			--self
+		end
 		
 		self.ServerPath = self.FolderTree:AddNode("Server")
 		self.ServerPath:SetIcon("icon16/server.png")
@@ -57,6 +69,14 @@ function PANEL:Init ()
 		self.PlayerPath = self.FolderTree:AddNode(LocalPlayer():Nick())
 		self.PlayerPath:SetIcon("icon16/user.png")
 		self.PlayerPath:MakeFolder("lua", "GAME")
+		
+		self.Files = Metro.Create("MetroListView", self)
+		self.Files:Dock(FILL)
+		--self.Files:SetSize(190, 10)
+		self.Files:SetFolder("lua")
+
+		
+		self.Files:DockMargin(0, 0, 1, 0)
 		
 	end, ErrorNoHalt)
 end
