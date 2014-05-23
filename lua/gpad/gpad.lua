@@ -8,6 +8,9 @@ end
 include("gpad/loader.lua")
 include("gpad/constructor.lua")
 
+GPad.Steamworks = {}
+include("gpad/steamworks.lua")
+
 GPad.VFS = GPad.Consturctor()
 GPad.VFS.Protocol = GPad.Consturctor()
 
