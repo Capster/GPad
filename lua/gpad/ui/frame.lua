@@ -166,6 +166,19 @@ function PANEL:Init ()
 	end, ErrorNoHalt)
 end
 
+function PANEL:Paint( w, h )
+
+	if self.m_bBackgroundBlur then
+		Metro.DrawBackgroundBlur( self, self.m_fCreateTime )
+	end
+	draw.RoundedBox(0, 0, 0, w, h, Color(240, 240, 240))
+	if not self:IsActive() then
+		draw.RoundedBox(0, 0, 0, w, h, Color(185, 185, 185, 50))
+	end
+	return true
+
+end
+
 function PANEL:PerformLayout ()
 	-- ToDo: Remove eet
 	self.btnClose:InvalidateLayout()
@@ -189,7 +202,7 @@ end
 function PANEL:Reload()
 	self:Remove()
 	GPad.Panel = nil
-	GPad.GetFrame():SetVisible (true)
+	GPad.GetFrame():SetVisible(true)
 end
 
 Metro.Register("GPadIDE", PANEL, "MetroFrame")

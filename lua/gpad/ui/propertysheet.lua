@@ -60,9 +60,13 @@ end
 function PANEL:Paint(w, h)
 	if self:IsActive() then
 		draw.RoundedBox(0, 0, 0, w, h, Color(7, 104, 175))
+		self.CloseButton:SetVisible(true)
 	elseif self:IsHovered() or self.CloseButton:IsHovered() then
 		draw.RoundedBox(0, 0, 0, w, h, Color(50, 124, 190))
-	end		
+		self.CloseButton:SetVisible(true)
+	else
+		self.CloseButton:SetVisible(false)
+	end	
 end
 
 function PANEL:DoRightClick()
