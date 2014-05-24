@@ -54,6 +54,6 @@ GPad.IncludeDir("decompiler", true)
 GPad.GLua = {}
 GPad.IncludeDir("compilers", true)
 
---RunConsoleCommand("gpad_show")
+RunConsoleCommand("gpad_show")
 --RunConsoleCommand("gpad_showfb")
-RunConsoleCommand("gpad_showpm")
+--RunConsoleCommand("gpad_showpm")

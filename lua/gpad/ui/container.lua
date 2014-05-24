@@ -34,12 +34,10 @@ end
 
 function PANEL:AddTab(strType, strnName, content, enumOrientation)
 	local file = GPad.FileTypes:GetType(strType)
-	local dock = file:Init()
+	local dock = file:Init(content)
+	
 	dock.TypeX = strType
 	dock.Orientation = enumOrientation
-	if dock.SetContent then
-		dock:SetContent(content)
-	end
 	
 	self.Docks[#self.Docks+1] = dock
 	self[enumOrientation]:AddSheet( strnName, dock, file.Icon, false, false )

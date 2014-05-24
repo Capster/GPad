@@ -4,28 +4,37 @@ fastlua.Bind( PANEL, "PropertySheet" )
 fastlua.Bind( PANEL, "Panel" )
 
 function PANEL:Init()
-
 	self:SetMouseInputEnabled( true )
 	self:SetContentAlignment( 7 )
-	self:SetTextInset( 0, 4 )
+	self:SetTextInset( 0, 4 )	
 	
+	self.CloseButton = Metro.Create( "MetroButton", self )
+	self.CloseButton:SetSize(12, 12)
+	self.CloseButton:SetText("")
+	self.CloseButton.DoClick = function (button) self:Close() end
+	self.CloseButton.PerformLayout = function(button, w, h)	
+		button:SetPos(0, 1)
+		return true
+	end
+	self.CloseButton.Paint = function(panel, w, h)	
+		local bg = (panel.Depressed and Color(128, 32, 32)) or (panel:IsHovered() and Color(255, 0, 0)) or Metro.Colors.CrossButton
+			draw.RoundedBox(0, 0, 0, w, h, bg)
+			draw.SimpleText("r", "marlett", w/2, h/2, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, color_black )
+			return true
+	end
 end
 
 function PANEL:Setup( label, pPropertySheet, pPanel, strMaterial )
-
 	self:SetText( label )
 	self:SetPropertySheet( pPropertySheet )
 	self:SetPanel( pPanel )
 	
-	if ( strMaterial ) then
-	
+	if strMaterial then
 		self.Image = Metro.Create( "DImage", self )
 		self.Image:SetImage( strMaterial )
 		self.Image:SizeToContents()
-		self:InvalidateLayout()
-		
+		self:InvalidateLayout()		
 	end
-
 end
 
 function PANEL:IsActive()
@@ -40,31 +49,28 @@ end
 
 function PANEL:PerformLayout()
 
-	self:ApplySchemeSettings();
+	self:ApplySchemeSettings()
 		
-	if ( !self.Image ) then return end
+	if not self.Image then return end
 		
-	self.Image:SetPos( 7, 3 )
+	self.Image:SetPos(7, 3)
 	
-	if ( !self:IsActive() ) then
-		self.Image:SetImageColor( Color( 255, 255, 255, 155 ) )
+	if not self:IsActive() then
+		self.Image:SetImageColor(Color(255, 255, 255, 155))
 	else
-		self.Image:SetImageColor( Color( 255, 255, 255, 255 ) )
+		self.Image:SetImageColor(Color(255, 255, 255, 255))
 	end
 	
 end
 
 function PANEL:Paint(w, h)
-
-	
 	if self:IsActive() then
 		draw.RoundedBox(0, 0, 0, w, h-7, Metro.Colors.TabsBorder)
 		draw.RoundedBox(0, 1, 1, w-2, h, Metro.Colors.TabsSeleced)
 	else
 		draw.RoundedBox(0, 0, 0, w, h, Metro.Colors.TabsBorder)
 		draw.RoundedBox(0, 1, 1, w-2, h, Metro.Colors.TabsTab)
-	end
-	
+	end	
 end
 
 function PANEL:DoRightClick()
@@ -84,42 +90,40 @@ end
 
 
 function PANEL:ApplySchemeSettings()
-
 	local ExtraInset = 10
 
-	if ( self.Image ) then
+	if self.Image then
 		ExtraInset = ExtraInset + self.Image:GetWide()
 	end
 	
 	local Active = self:GetPropertySheet():GetActiveTab() == self
 	
-	self:SetTextInset( ExtraInset, 4 )
+	self:SetTextInset(ExtraInset, 4)
 	local w, h = self:GetContentSize()
 	h = 20
-	if ( Active ) then h = 28 end
+	if (Active) then h = 28 end
 
 	self:SetSize( w + 10, h )
 		
-	DLabel.ApplySchemeSettings( self )
-		
+	DLabel.ApplySchemeSettings(self)	
 end
 
-function PANEL:DragHoverClick( HoverTime )
+function PANEL:DragHoverClick(HoverTime)
 
 	self:DoClick()
 
 end
 
-Metro.Register( "GPadTab", PANEL, "MetroButton" )
+Metro.Register("GPadTab", PANEL, "MetroButton")
 
 
 local PANEL = {}
 
-AccessorFunc( PANEL, "m_pActiveTab", 			"ActiveTab" )
-AccessorFunc( PANEL, "m_iPadding",	 			"Padding" )
-AccessorFunc( PANEL, "m_fFadeTime", 			"FadeTime" )
+AccessorFunc(PANEL, "m_pActiveTab", "ActiveTab")
+AccessorFunc(PANEL, "m_iPadding", "Padding")
+AccessorFunc(PANEL, "m_fFadeTime", "FadeTime")
 
-AccessorFunc( PANEL, "m_bShowIcons", 			"ShowIcons" )
+AccessorFunc(PANEL, "m_bShowIcons", "ShowIcons")
 
 function PANEL:Init()
 	
