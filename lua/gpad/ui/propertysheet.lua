@@ -50,7 +50,7 @@ function PANEL:PerformLayout()
 	self.Image:SetPos(7, 3)
 	
 	if not self:IsActive() then
-		self.Image:SetImageColor(Color(255, 255, 255, 155))
+		self.Image:SetImageColor(Color(255, 255, 255, 225))
 	else
 		self.Image:SetImageColor(Color(255, 255, 255, 255))
 	end
@@ -60,8 +60,8 @@ end
 function PANEL:Paint(w, h)
 	if self:IsActive() then
 		draw.RoundedBox(0, 0, 0, w, h, Color(7, 104, 175))
-	elseif self:IsHovered() then
-		draw.RoundedBox(0, 0, 0, w, h, Color(7, 104, 175))
+	elseif self:IsHovered() or self.CloseButton:IsHovered() then
+		draw.RoundedBox(0, 0, 0, w, h, Color(50, 124, 190))
 	end		
 end
 
@@ -94,9 +94,10 @@ function PANEL:ApplySchemeSettings()
 	local w, h = self:GetContentSize()
 	h = 28
 
+	if not Active then h = 24 end
 	
-	self.CloseButton:SetPos(w + 3, 10 - 7)
-	self:SetSize( w + 10 + 12, h )
+	self.CloseButton:SetPos(w + 20, 5)
+	self:SetSize( w + 30 + 12, h )
 		
 	DLabel.ApplySchemeSettings(self)	
 end

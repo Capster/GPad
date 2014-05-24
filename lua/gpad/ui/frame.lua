@@ -13,7 +13,7 @@ function PANEL:Init ()
 		self:MakePopup()
 		self.ToolMenu = Metro.Create( "MetroMenuBar", self )
 		self.ToolMenu:Dock(TOP)
-
+		
 		local menu = self.ToolMenu:AddMenu ("File")
 		menu:AddOption ("New", function() end):SetIcon ("icon16/page_white_add.png")
 		menu:AddOption ("Save", function() end):SetIcon ("icon16/disk.png")
@@ -159,6 +159,10 @@ function PANEL:Init ()
 		end, function(button)
 			button:SetDisabled(not GPad.ContainerType:IsCode())
 		end)		
+		
+		self.StatusBar = Metro.Create( "GPadStatusBar", self )
+		self.StatusBar:Dock(BOTTOM)
+		
 	end, ErrorNoHalt)
 end
 
