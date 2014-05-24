@@ -4,6 +4,11 @@ function GPad.CreateToolbar(panelParent)
 	Toolbar:SetSpacing(5)
 	Toolbar:EnableHorizontal(true)
 	Toolbar:EnableVerticalScrollbar(false)
+	
+	Toolbar.Paint = function(self, w, h)
+		draw.RoundedBox(0, 0, 0, w, h, Color(240, 240, 240))
+	end
+	
 	Toolbar.PerformLayout = function(self) 
 		local Wide = self:GetWide()
 		local YPos = 3

@@ -9,17 +9,13 @@ function PANEL:Init()
 	self:SetTextInset( 0, 4 )	
 	
 	self.CloseButton = Metro.Create( "MetroButton", self )
-	self.CloseButton:SetSize(12, 12)
+	self.CloseButton:SetSize(14, 14)
 	self.CloseButton:SetText("")
-	self.CloseButton.DoClick = function (button) self:Close() end
-	self.CloseButton.PerformLayout = function(button, w, h)	
-		button:SetPos(0, 1)
-		return true
+	self.CloseButton.DoClick = function() 
+			self:GetPropertySheet():CloseTab(self, true)
 	end
-	self.CloseButton.Paint = function(panel, w, h)	
-		local bg = (panel.Depressed and Color(128, 32, 32)) or (panel:IsHovered() and Color(255, 0, 0)) or Metro.Colors.CrossButton
-			draw.RoundedBox(0, 0, 0, w, h, bg)
-			draw.SimpleText("r", "marlett", w/2, h/2, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, color_black )
+	self.CloseButton.Paint = function(panel, w, h)
+			draw.SimpleText("r", "marlett", w/2, h/2, Color(220, 220, 220), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, color_black )
 			return true
 	end
 end
@@ -42,9 +38,7 @@ function PANEL:IsActive()
 end
 
 function PANEL:DoClick()
-
 	self:GetPropertySheet():SetActiveTab( self )
-
 end
 
 function PANEL:PerformLayout()
@@ -65,12 +59,10 @@ end
 
 function PANEL:Paint(w, h)
 	if self:IsActive() then
-		draw.RoundedBox(0, 0, 0, w, h-7, Metro.Colors.TabsBorder)
-		draw.RoundedBox(0, 1, 1, w-2, h, Metro.Colors.TabsSeleced)
-	else
-		draw.RoundedBox(0, 0, 0, w, h, Metro.Colors.TabsBorder)
-		draw.RoundedBox(0, 1, 1, w-2, h, Metro.Colors.TabsTab)
-	end	
+		draw.RoundedBox(0, 0, 0, w, h, Color(7, 104, 175))
+	elseif self:IsHovered() then
+		draw.RoundedBox(0, 0, 0, w, h, Color(7, 104, 175))
+	end		
 end
 
 function PANEL:DoRightClick()
@@ -91,7 +83,7 @@ end
 
 function PANEL:ApplySchemeSettings()
 	local ExtraInset = 10
-
+	
 	if self.Image then
 		ExtraInset = ExtraInset + self.Image:GetWide()
 	end
@@ -100,10 +92,11 @@ function PANEL:ApplySchemeSettings()
 	
 	self:SetTextInset(ExtraInset, 4)
 	local w, h = self:GetContentSize()
-	h = 20
-	if (Active) then h = 28 end
+	h = 28
 
-	self:SetSize( w + 10, h )
+	
+	self.CloseButton:SetPos(w + 3, 10 - 7)
+	self:SetSize( w + 10 + 12, h )
 		
 	DLabel.ApplySchemeSettings(self)	
 end
@@ -127,9 +120,9 @@ AccessorFunc(PANEL, "m_bShowIcons", "ShowIcons")
 
 function PANEL:Init()
 	
-	self:SetShowIcons( true )
+	self:SetShowIcons(true)
 
-	self.tabScroller 	= Metro.Create( "DHorizontalScroller", self )
+	self.tabScroller = Metro.Create( "DHorizontalScroller", self )
 	self.tabScroller:SetOverlap( 5 )
 	self.tabScroller:Dock( TOP )
 
@@ -146,8 +139,9 @@ function PANEL:Paint(w, h)
 	local ActiveTab = self:GetActiveTab()
 	local Offset = 0
 	if ActiveTab then Offset = ActiveTab:GetTall()-8 end
-	draw.RoundedBox(0, 0, Offset, w, h-Offset, Metro.Colors.TabsBorder)
-	draw.RoundedBox(0, 0, Offset+1, w, h-Offset-2, Metro.Colors.TabsSeleced)
+	--draw.RoundedBox(0, 0, Offset, w, h-Offset, Metro.Colors.TabsBorder)
+	draw.RoundedBox(0, 0, 0, w, h, Color(240, 240, 240))
+	draw.RoundedBox(0, 0, Offset+4, w, h-Offset-2, Color(7, 104, 175))
 	
 end
 
@@ -342,6 +336,7 @@ function PANEL:SwitchToName( name )
 end
 
 function PANEL:CloseTab( tab, bRemovePanelToo )
+	if #self.Items == 1 then return end
 
 	for k, v in pairs( self.Items ) do
 	

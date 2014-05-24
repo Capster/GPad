@@ -21,6 +21,7 @@ function PANEL:PaintOver(w,h)
 			surface.SetTextColor(255,255,255,255)
 			for k1,point in ipairs(poly)do
 				surface.SetTextPos(point.x-35, point.y-50)
+				surface.SetFont("MetroSmall")
 				surface.DrawText("x: "..point.x.."; y: "..point.y)
 				draw.RoundedBox(4, point.x-2, point.y-2, 5, 5, Color(0,200,0,100))
 			end
@@ -45,6 +46,7 @@ function PANEL:Paint(w,h)
 	
 	surface.SetTextPos(math.RoundToNearest(self:ScreenToLocal(gui.MouseX()), self.SnapTo)-35, math.RoundToNearest(self:ScreenToLocal(gui.MouseY()-15), self.SnapTo)-50)
 	surface.SetTextColor(255,255,255,255)
+	surface.SetFont("MetroSmall")
 	surface.DrawText("x: "..math.RoundToNearest(self:ScreenToLocal(gui.MouseX()), self.SnapTo).."; y: "..math.RoundToNearest(self:ScreenToLocal(gui.MouseY()-15), self.SnapTo))
 	
 	surface.SetDrawColor(100,100,100,150)
