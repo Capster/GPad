@@ -7,6 +7,7 @@ function PANEL:Init()
 	self:SetMouseInputEnabled( true )
 	self:SetContentAlignment( 7 )
 	self:SetTextInset( 0, 4 )	
+	self:SetFont("MetroSmall")
 	
 	self.CloseButton = Metro.Create( "MetroButton", self )
 	self.CloseButton:SetSize(14, 14)
@@ -152,7 +153,7 @@ end
 
 function PANEL:AddSheet( label, panel, material, NoStretchX, NoStretchY, Tooltip )
 
-	if ( !IsValid( panel ) ) then return end
+	if not IsValid( panel ) then return end
 	
 	if ValidPanel(self.AdderButton) then
 		self.AdderButton:Remove()
@@ -176,19 +177,10 @@ function PANEL:AddSheet( label, panel, material, NoStretchX, NoStretchY, Tooltip
 	
 	table.insert( self.Items, Sheet )
 	
-	--if ( !self:GetActiveTab() ) then
-		self:SetActiveTab( Sheet.Tab )
-		Sheet.Panel:SetVisible( true )
-	--end
+	self:SetActiveTab( Sheet.Tab )
+	Sheet.Panel:SetVisible( true )
 	
 	self.tabScroller:AddPanel( Sheet.Tab )
-	
-	--[[self.AdderButton = Metro.Create( "DImageButton", self )
-	self.AdderButton:SetImage( "icon16/circlecross.png" )
-	self.AdderButton:SetColor( Color( 10, 10, 10, 200 ) );
-	self.AdderButton:SetSize( 16, 16 )
-	self.AdderButton.DoClick = function() end
-	self.tabScroller:AddPanel( self.AdderButton )]]
 	
 	return Sheet
 
@@ -228,7 +220,7 @@ function PANEL:CrossFade( anim, delta, data )
 	local old = data.OldTab:GetPanel()
 	local new = data.NewTab:GetPanel()
 	
-	if ( anim.Finished ) then
+	if anim.Finished then
 	
 		old:SetVisible( false )
 		new:SetAlpha( 255 )
@@ -238,7 +230,7 @@ function PANEL:CrossFade( anim, delta, data )
 		
 	return end
 	
-	if ( anim.Started ) then
+	if anim.Started then
 	
 		old:SetZPos( 0 )
 		new:SetZPos( 1 )
@@ -260,7 +252,7 @@ function PANEL:PerformLayout()
 	local ActiveTab = self:GetActiveTab()
 	local Padding = self:GetPadding()
 	
-	if ( !ActiveTab ) then return end
+	if not ActiveTab then return end
 	
 	ActiveTab:InvalidateLayout( true )
 	
@@ -272,7 +264,7 @@ function PANEL:PerformLayout()
 		
 	for k, v in pairs( self.Items ) do
 	
-		if ( v.Tab:GetPanel() == ActivePanel ) then
+		if v.Tab:GetPanel() == ActivePanel then
 		
 			v.Tab:GetPanel():SetVisible( true )
 			v.Tab:SetZPos( 100 )
@@ -289,13 +281,13 @@ function PANEL:PerformLayout()
 	
 	end
 	
-	if ( !ActivePanel.NoStretchX ) then 
+	if not ActivePanel.NoStretchX then 
 		ActivePanel:SetWide( self:GetWide() - Padding * 2 ) 
 	else
 		ActivePanel:CenterHorizontal()
 	end
 	
-	if ( !ActivePanel.NoStretchY ) then 
+	if not ActivePanel.NoStretchY then 
 		ActivePanel:SetTall( (self:GetTall() - ActiveTab:GetTall() ) - Padding ) 
 	else
 		ActivePanel:CenterVertical()
@@ -314,7 +306,7 @@ function PANEL:SizeToContentWidth()
 
 	for k, v in pairs( self.Items ) do
 	
-		if ( v.Panel ) then
+		if v.Panel then
 			v.Panel:InvalidateLayout( true )
 			wide = math.max( wide, v.Panel:GetWide()  + self.m_iPadding * 2 )
 		end
@@ -329,7 +321,7 @@ function PANEL:SwitchToName( name )
 
 	for k, v in pairs( self.Items ) do
 		
-		if ( v.Name == name ) then
+		if v.Name == name then
 			v.Tab:DoClick()
 			return true
 		end	
