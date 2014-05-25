@@ -4,7 +4,9 @@ function GPad.GLua:SessionStart(strCode, lineBreakPoint)
 	if lineBreakPoint then
 		local tblCode = string.Explode("\n", strCode)
 		tblCode[lineBreakPoint] = tblCode[lineBreakPoint].." return false, 'BreakPoint' "
-	
+		
+		GPad:BreakPoint(lineBreakPoint)
+		
 		strCode = table.concat(tblCode, "\n")
 	end
 	

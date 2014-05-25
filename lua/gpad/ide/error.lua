@@ -8,7 +8,7 @@ local function add_line(panelEditor, strType, strIcon, strContent, numErrorCode)
 			menu:AddOption("Copy to clipboard", function()
 				SetClipboardText(emitter:GetColumnText(2))
 			end):SetIcon ("icon16/page_white_copy.png")
-			if ValidPanel(panelEditor) then
+			if panelEditor and ValidPanel(panelEditor) then
 				menu:AddOption("Goto error line", function() 
 						panelEditor:GoErrorLine()
 				end):SetIcon ("icon16/arrow_right.png")
