@@ -1,7 +1,7 @@
 local self = {}
 
 self.Name = "PolyEditor"
-self.Icon = "icon16/shape_handles.png"
+self.Icon = "gpad/document_graph.png"
 
 function self:Init()
 	local editor = Metro.Create("GPadMetroEditor")

@@ -1,7 +1,7 @@
 local self = {}
 
 self.Name = "Image"
-self.Icon = "icon16/image.png"
+self.Icon = "gpad/document_image.png"
 
 function self:Init()
 	local img = Metro.Create("MetroHTML")

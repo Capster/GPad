@@ -1,7 +1,7 @@
 local self = {}
 
 self.Name = "HTMLPage"
-self.Icon = "icon16/page_world.png"
+self.Icon = "gpad/document_web.png"
 
 function self:Init()
 	local html = Metro.Create("MetroHTML")

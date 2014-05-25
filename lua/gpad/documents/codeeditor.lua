@@ -1,7 +1,7 @@
 local self = {}
 
 self.Name = "Code"
-self.Icon = "icon16/page_red.png"
+self.Icon = "gpad/document_lua.png"
 
 function self:Init(strCode)
 	local code = Metro.Create("GPadEditor")
