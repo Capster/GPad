@@ -1,5 +1,12 @@
 GPad.GLua = {}
 
+local function gpad_stamp()
+--[[
+	MsgC(Color(200, 200, 200), "[")
+	MsgC(Color(160, 160, 160), "GPad")
+	MsgC(Color(200, 200, 200), "]")]]
+end
+
 function GPad.GLua:SessionStart(strCode, lineBreakPoint)
 	if lineBreakPoint then
 		local tblCode = string.Explode("\n", strCode)
@@ -17,7 +24,8 @@ function GPad.GLua:SessionStart(strCode, lineBreakPoint)
 	code = code .. "local MsgC        = MsgC "
 	code = code .. "local print       = print "
 	code = code .. strCode
-	local f = CompileString (code, (LocalPlayer().GetUserGroup and LocalPlayer():GetUserGroup() or "developer").."_"..LocalPlayer():Nick())
+	
+	local f = CompileString(code, (LocalPlayer().GetUserGroup and LocalPlayer():GetUserGroup() or "developer").."_"..LocalPlayer():Nick())
 
 	local old_ErrorNoHalt = ErrorNoHalt
 	local old_Msg         = Msg
@@ -30,28 +38,28 @@ function GPad.GLua:SessionStart(strCode, lineBreakPoint)
 	local id = util.CRC(strCode)
 	
 	ErrorNoHalt = function(text)
-		GPad.Warning(text)
-		old_ErrorNoHalt (text)
+		GPad.Warning(_, text)
+		old_ErrorNoHalt(text)
 	end
 	Msg = function(text)
-		GPad.PrintDebug(text)
+		GPad.PrintDebug(_, text)
 		old_Msg(text)
 	end
 	MsgN = function(text)
-		GPad.PrintDebug(text)
+		GPad.PrintDebug(_, text)
 		old_MsgN(text)
 	end
 	MsgC = function(color, ...)
-		GPad.PrintDebug(...)
+		GPad.PrintDebug(_, ...)
 		old_MsgC(color, ...)
 	end
 	print = function(text)
-		GPad.PrintDebug(text)
+		GPad.PrintDebug(_, text)
 		old_print(text)
 	end
 
 	xpcall(f, function(message)
-		GPad.Error(message) -- ToDo: Stack trace
+		GPad.Error(_, message) -- ToDo: Stack trace
 		old_ErrorNoHalt(message)
 	end)
 
