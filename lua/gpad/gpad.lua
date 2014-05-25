@@ -21,6 +21,10 @@ include("gpad/vfs/root.lua")
 include("gpad/vfs/file.lua")
 include("gpad/vfs/copyfs.lua")
 
+if SERVER then
+	include("gpad/resource.lua")
+end
+
 GPad.VFTP = GPad.Consturctor()
 
 include("gpad/vftp.lua")

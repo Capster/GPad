@@ -73,10 +73,10 @@ function PANEL:Init()
 	self.Bar.Paint = function(panel, w, h)
 		surface.SetFont("MetroSmall")
 		local text = "Debug"
-		local text_w = surface.GetTextSize(text) + 40
+		local text_w = surface.GetTextSize(text) + 15
 		draw.RoundedBox(0, 0, 0, w, h, Color(0, 120, 205))
-		draw.SimpleText(text, "MetroSmall", 20, h * 0.5, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, color_black )
-		surface.DrawVSDotHorizontal(text_w, h * 0.5, w - text_w - 20, Color(150, 150, 150))
+		draw.SimpleText(text, "MetroSmall", 5, h * 0.5, Color(255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER, 1, color_black )
+		surface.DrawVSDotHorizontal(text_w, h * 0.5, w - text_w - 20, Color(89, 168, 222))
 		return true
 	end
 	
