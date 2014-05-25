@@ -39,6 +39,8 @@ end
 
 if SERVER then return end
 
+include("gpad/drawfunctions.lua")
+
 include("gpad/doctypes.lua")
 
 GPad.IncludeDir("documents", true)
