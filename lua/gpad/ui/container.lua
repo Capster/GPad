@@ -6,7 +6,7 @@ function PANEL:Init ()
 	self.Driver:Dock(FILL)
 
 	self[GPad.Orientation.Top] = Metro.Create("GPadPropertySheet")
-	self[GPad.Orientation.Bottom] = Metro.Create("GPadPropertySheet")
+	self[GPad.Orientation.Bottom] = Metro.Create("GPadPropertySheetDown")
 	
 	self.Driver:SetTop( self[GPad.Orientation.Top] )
 	self.Driver:SetBottom( self[GPad.Orientation.Bottom] )

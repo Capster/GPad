@@ -12,13 +12,24 @@ function PANEL:Init()
 	self.CloseButton = Metro.Create( "MetroButton", self )
 	self.CloseButton:SetSize(14, 14)
 	self.CloseButton:SetText("")
+	
 	self.CloseButton.DoClick = function() 
 			self:GetPropertySheet():CloseTab(self, true)
 	end
 	self.CloseButton.Paint = function(panel, w, h)
-			draw.SimpleText("r", "marlett", w/2, h/2, Color(220, 220, 220), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, color_black )
-			return true
+		if panel:IsHovered() then
+			draw.RoundedBox(0, 0, 0, w, h, Color(50, 124, 190))
+		end
+		draw.SimpleText("r", "marlett", w/2, h/2, Color(220, 220, 220), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, color_black )
+		return true
 	end
+end
+
+function PANEL:UpdateColours()
+	if self:IsHovered() or self:IsActive() then
+		return self:SetTextStyleColor( Metro.Colors.TextHighlight )
+	end
+	return self:SetTextStyleColor( Metro.Colors.TextHighlight )
 end
 
 function PANEL:Setup( label, pPropertySheet, pPanel, strMaterial )
