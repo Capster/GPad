@@ -1,6 +1,12 @@
 GPad.GLua = {}
 
-function GPad.GLua:SessionStart(strCode)
+function GPad.GLua:SessionStart(strCode, lineBreakPoint)
+
+	local tblCode = string.Explode("\n", strCode)
+	tblCode[lineBreakPoint] = tblCode[lineBreakPoint].." return false, 'BreakPoint' "
+	
+	strCode = table.concat(tblCode, "\n")
+	
 	local code = ""
 	code = code .. "local ErrorNoHalt = ErrorNoHalt "
 	code = code .. "local Msg         = Msg "
