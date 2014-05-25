@@ -1,7 +1,7 @@
 local function add_line(panelEditor, strType, strIcon, strContent, numErrorCode)
 	if GPad.Output then
 		--GPad.Output:Clear()
-		local emitter = GPad.Output:AddLine( strType, strContent or "Unknown Error", numErrorCode or "" )
+		local emitter = GPad.Output:AddLine( strType, strContent, numErrorCode or "" )
 		emitter:SetIcon(strIcon)
 		emitter.OnRightClick = function(line)
 			local menu = DermaMenu()
@@ -19,13 +19,13 @@ local function add_line(panelEditor, strType, strIcon, strContent, numErrorCode)
 end
 
 function GPad.Error(panelEditor, strError, numErrorCode)
-	add_line(panelEditor, "Error", "icon16/cancel.png", strError, numErrorCode)
+	add_line(panelEditor, "Error", "gpad/error.png", strError or "Unknown Error", numErrorCode)
 end
 
 function GPad.Warning(panelEditor, strWarning, numWarningCode)
-	add_line(panelEditor, "Warning", "icon16/error.png", strWarning, numWarningCode)
+	add_line(panelEditor, "Warning", "gpad/warning.png", strWarning or "Unknown Warning", numWarningCode)
 end
 
 function GPad.PrintDebug(panelEditor, strDebug, numDebugId)
-	add_line(panelEditor, "Debug", "icon16/cog.png", strDebug, numDebugId)
+	add_line(panelEditor, "Debug", "gpad/debug.png", strDebug or "Unknown Message", numDebugId)
 end
