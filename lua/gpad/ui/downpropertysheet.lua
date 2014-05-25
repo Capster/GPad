@@ -72,7 +72,7 @@ function PANEL:Init()
 	self.Bar:Dock( TOP )
 	self.Bar.Paint = function(panel, w, h)
 		surface.SetFont("MetroSmall")
-		local text = "Debug"
+		local text = "List of Errors"
 		local text_w = surface.GetTextSize(text) + 15
 		draw.RoundedBox(0, 0, 0, w, h, Color(0, 120, 205))
 		draw.SimpleText(text, "MetroSmall", 5, h * 0.5, Color(255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER, 1, color_black )
