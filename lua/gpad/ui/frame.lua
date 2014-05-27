@@ -18,9 +18,27 @@ function PANEL:Init ()
 		local menu = self.ToolMenu:AddMenu("File")
 		menu:AddOption("New", function() end):SetIcon ("gpad/new.png")
 		menu:AddOption("Open", function() end):SetIcon ("gpad/open.png")
+		
+		menu:AddSpacer()
+		
+		menu:AddOption("Close File", function() end):SetIcon ("gpad/close.png")
+		menu:AddOption("Close All", function() end)
+		
+		menu:AddSpacer()
+		
 		menu:AddOption("Save", function() end):SetIcon ("gpad/save.png")
-		menu:AddOption("Save As", function() end):SetIcon ("gpad/saveas.png")
+		menu:AddOption("Save As", function() end)
 		menu:AddOption("Save All", function() end):SetIcon ("gpad/saveas.png")
+		
+		menu:AddSpacer()
+		
+		menu:AddOption("GitHub Monitor", function() end)
+		menu:AddOption("Raw Download", function() end)
+		
+		menu:AddSpacer()
+		
+		menu:AddOption("Exit", function() end):SetIcon ("gpad/close.png")
+		
 		-- Edit
 		local menu = self.ToolMenu:AddMenu("Edit")
 		menu:AddOption("Undo", function() end):SetIcon ("gpad/undo.png")
@@ -145,13 +163,13 @@ function PANEL:Init ()
 					luadev.RunOnShared(GPad.FileTypes:GetActivePanel():GetCode())
 				end):SetIcon("gpad/document_web.png")
 				
-				local clients_tab, gui = menu:AddSubMenu("Run on client", null)
+				local clients_tab, gui = menu:AddSubMenu("Run on client")
 				
 				gui:SetIcon("gpad/user.png")
 				
-				local players = player.GetAll ()
+				local players = player.GetAll()
 				
-				table.sort(players, function (a, b)
+				table.sort(players, function(a, b)
 					return a:Name ():lower() < b:Name():lower()
 				end)
 				
