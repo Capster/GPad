@@ -43,6 +43,13 @@ end
 
 if SERVER then return end
 
+function GPad.UIError(...)
+	if GPad.DEVMODE then
+		chat.AddText(Color(255, 0, 0), "[", Color(200, 0, 0), "GPad", Color(255, 0, 0), "] ", Color(255, 255, 255), "UI error: ", ...)
+	end
+	ErrorNoHalt(..., "\n")
+end
+
 include("gpad/drawfunctions.lua")
 
 include("gpad/doctypes.lua")
