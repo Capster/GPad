@@ -85,6 +85,11 @@ PANEL.Themes = {
 	"twilight",
 	"vibrant_ink",
 }
+
+-- For menu
+GPad.Modes = PANEL.Modes
+GPad.Themes = PANEL.Themes
+
 function PANEL:Init()
 	self.Content = ""
 	self.filename = "lua_editor_save.txt"
