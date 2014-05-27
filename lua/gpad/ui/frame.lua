@@ -14,17 +14,42 @@ function PANEL:Init ()
 		self.ToolMenu = Metro.Create( "MetroMenuBar", self )
 		self.ToolMenu:Dock(TOP)
 		
-		local menu = self.ToolMenu:AddMenu ("File")
-		menu:AddOption ("New", function() end):SetIcon ("icon16/page_white_add.png")
-		menu:AddOption ("Save", function() end):SetIcon ("icon16/disk.png")
-		local menu = self.ToolMenu:AddMenu ("Edit")
-		menu:AddOption ("Undo", function()end):SetIcon ("icon16/arrow_undo.png")
-		local menu = self.ToolMenu:AddMenu ("View")
-		menu:AddOption ("Mode", function() end):SetIcon ("icon16/application_view_list.png")
-		local menu = self.ToolMenu:AddMenu ("Syntax")
-		local menu = self.ToolMenu:AddMenu ("Options")
-		local menu = self.ToolMenu:AddMenu ("Tools")
-		local menu = self.ToolMenu:AddMenu ("About")
+		-- File
+		local menu = self.ToolMenu:AddMenu("File")
+		menu:AddOption("New", function() end):SetIcon ("gpad/new.png")
+		menu:AddOption("Open", function() end):SetIcon ("gpad/open.png")
+		menu:AddOption("Save", function() end):SetIcon ("gpad/save.png")
+		menu:AddOption("Save As", function() end):SetIcon ("gpad/saveas.png")
+		menu:AddOption("Save All", function() end):SetIcon ("gpad/saveas.png")
+		-- Edit
+		local menu = self.ToolMenu:AddMenu("Edit")
+		menu:AddOption("Undo", function() end):SetIcon ("gpad/undo.png")
+		menu:AddOption("Redo", function() end):SetIcon ("gpad/redo.png")
+		
+		-- View
+		local menu = self.ToolMenu:AddMenu("View")
+		local parent, gui = menu:AddSubMenu("Theme", null)
+		
+		gui:SetIcon("gpad/theme.png")
+		
+		for k,v in pairs(GPad.Themes) do
+			parent:AddOption(v, null)
+		end
+		
+		-- Syntax
+		local menu = self.ToolMenu:AddMenu("Syntax")
+		for k,v in pairs(GPad.Modes) do
+			menu:AddOption (v, null)
+		end
+			
+		-- Options
+		local menu = self.ToolMenu:AddMenu("Options")
+		
+		-- Tools
+		local menu = self.ToolMenu:AddMenu("Tools")
+		
+		-- About
+		local menu = self.ToolMenu:AddMenu("About")
 		
 		--self.ToolMenu = Notepad.ToolMenu(self)
 		self.Container = Metro.Create("GPadDockContainer", self)
@@ -61,7 +86,7 @@ function PANEL:Init ()
 		end, function()
 			local menu = DermaMenu()
 				for k,v in pairs(GPad.UndoStack) do
-					menu:AddOption("Run clientside", function() end)
+					menu:AddOption("- ", null)
 				end
 			menu:Open()
 		end)
@@ -72,7 +97,7 @@ function PANEL:Init ()
 		end, function()
 			local menu = DermaMenu()
 				for k,v in pairs(GPad.RedoStack) do
-					menu:AddOption("Run clientside", function() end)
+					menu:AddOption("- ", null)
 				end
 			menu:Open()
 		end)
@@ -99,39 +124,48 @@ function PANEL:Init ()
 			local old = GPad.FileTypes:GetActivePanel():GetCookie("font_size")
 			GPad.FileTypes:GetActivePanel():SetFontSize(old - 1)
 		end)]]
+		
 		GPad.AddToolbarSpacer()
 		GPad.AddToolbarItem("Run script", "gpad/exec.png", function()
 			local menu = DermaMenu()
+			
 				menu:AddOption("Run clientside", function()
 					if not GPad.ContainerType:IsCode() then return end
 					GPad.GLua:SessionStart(GPad.FileTypes:GetActivePanel():GetCode())
 					--luadev.RunOnClient(GPad.FileTypes:GetActivePanel():GetCode(), nil, LocalPlayer())
-				end):SetIcon("icon16/user_go.png")
+				end):SetIcon("gpad/user.png")
+				
 				menu:AddOption("Run serverside", function()
 					if not GPad.ContainerType:IsCode() then return end
 					luadev.RunOnServer(GPad.FileTypes:GetActivePanel():GetCode())
-				end):SetIcon("icon16/server_go.png")
+				end):SetIcon("gpad/server.png")
+				
 				menu:AddOption("Run shared", function()
 					if not GPad.ContainerType:IsCode() then return end
 					luadev.RunOnShared(GPad.FileTypes:GetActivePanel():GetCode())
-				end):SetIcon("icon16/world_go.png")
+				end):SetIcon("gpad/document_web.png")
 				
 				local clients_tab, gui = menu:AddSubMenu("Run on client", null)
-				gui:SetIcon("icon16/group.png")
+				
+				gui:SetIcon("gpad/user.png")
+				
 				local players = player.GetAll ()
-				table.sort (players, function (a, b)
+				
+				table.sort(players, function (a, b)
 					return a:Name ():lower() < b:Name():lower()
 				end)
+				
 				for k, v in ipairs(players) do
 					clients_tab:AddOption(v:Nick(), function()
-					if not GPad.ContainerType:IsCode() then return end
-					luadev.RunOnClient(GPad.FileTypes:GetActivePanel():GetCode(), nil, v)
-				end):SetIcon(v:IsAdmin() and "icon16/shield_go.png" or "icon16/user_go.png")
+						if not GPad.ContainerType:IsCode() then return end
+						luadev.RunOnClient(GPad.FileTypes:GetActivePanel():GetCode(), nil, v)	
+					end):SetIcon(v:IsAdmin() and "gpad/developer.png" or "gpad/user.png")
 				end
+				
 				menu:AddOption("Run on clients", function()
 					if not GPad.ContainerType:IsCode() then return end
 					luadev.RunOnClients(GPad.FileTypes:GetActivePanel():GetCode())
-				end):SetIcon("icon16/group_go.png")
+				end):SetIcon("gpad/clients.png")
 				
 				menu:AddOption("Run on developers", function()
 					if not GPad.ContainerType:IsCode() then return end
@@ -139,7 +173,8 @@ function PANEL:Init ()
 						if not v:IsAdmin() then return end
 						luadev.RunOnClient(GPad.FileTypes:GetActivePanel():GetCode(), nil, v)
 					end
-				end):SetIcon("icon16/user_gray.png")
+				end):SetIcon("gpad/developer.png")
+				
 			menu:Open()
 		end, function(button)
 			button:SetDisabled(not GPad.ContainerType:IsCode())
@@ -163,7 +198,7 @@ function PANEL:Init ()
 		self.StatusBar = Metro.Create( "GPadStatusBar", self )
 		self.StatusBar:Dock(BOTTOM)
 		
-	end, ErrorNoHalt)
+	end, GPad.UIError)
 end
 
 function PANEL:Paint( w, h )
