@@ -5,3 +5,7 @@ function GPad.Steamworks:IsUserOnline(strSteamID) -- (On dat Server)
 		end
 	end
 end
+
+function GPad.Steamworks:IsUserOffline(strSteamID)
+	return not GPad.Steamworks:IsUserOnline(strSteamID)
+end
