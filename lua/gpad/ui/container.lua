@@ -13,11 +13,6 @@ function PANEL:Init ()
 	self.Driver:SetCookieName("container_driver")
 	local TopHeight = self.Driver:GetCookie("TopHeight")
 	self.Driver:SetTopHeight(tonumber(TopHeight) or 750)
-	local old_hook = self.Driver.OnCursorMoved
-	self.Driver.OnCursorMoved = function(...)
-		old_hook(...)
-		--self:SetCookie("TopHeight", self:GetTopHeight())
-	end
 	self.Docks = {}
 	GPad.Debug = self:AddTab("Debug", "Debug", content, GPad.Orientation.Bottom)
 	GPad.Output = self:AddTab("Output", "Output", content, GPad.Orientation.Bottom)
@@ -28,7 +23,6 @@ function PANEL:Init ()
 	self:AddTab("PolyEditor", "New Poly", content, GPad.Orientation.Top)
 	
 	self:AddTab("Code", "New", content, GPad.Orientation.Top)
-	--self.Debug:SetupAdder()
 	self:AddTab("Code", "New", content, GPad.Orientation.Top)
 end
 

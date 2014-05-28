@@ -8,12 +8,6 @@ function PANEL:Init()
 	self.CurrentPoly = 1
 	
 	self:SetCursor("blank")
-	--[[
-	self.Instruct = vgui.Create("DLabel", self)
-	self.Instruct:SetText("Click anywhere to place a point.")
-	self.Instruct:SizeToContents()
-	self.Instruct:Center()
-	]]
 end
 function PANEL:PaintOver(w,h)
 		
@@ -134,7 +128,7 @@ function PANEL:CopyToClipboard()
 	end
 	SetClipboardText(rtrn.." --Put all this stuff OUTSIDE your paint hook.\n\ntable.foreachi(polydata, function(k,v) surface.DrawPoly(v) end) --Put this in your paint hook.")
 end
-	
+
 Metro.Register("GPadMetroEditor", PANEL, "DPanel")
 
 
