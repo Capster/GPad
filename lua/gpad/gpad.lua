@@ -38,7 +38,9 @@ if not glon then
 end
 
 function GPad.PrintDebug(...)
-	Msg"[GPad] " print(...)
+	if GPad.DEVMODE then
+		Msg"[GPad] " print(...)
+	end
 end
 
 if SERVER then return end
