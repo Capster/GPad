@@ -11,6 +11,10 @@ function META:GenerateHash()
 	self.__Hash = string.format("%p", self)
 end
 
+function META:GenerateHash2()
+	self.__Hash2 = util.CRC(tostring(SysTime()))
+end
+
 function META:AddHook(strFunction, funcCallback)
 	self:GenerateHash()
 	hook.Add(strFunction, self.__Hash, funcCallback)
