@@ -9,3 +9,7 @@ end
 function GPad.Steamworks:IsUserOffline(strSteamID)
 	return not GPad.Steamworks:IsUserOnline(strSteamID)
 end
+
+function GPad.Steamworks:GetOnlineUsers()
+	return player.GetHumans()
+end
