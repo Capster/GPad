@@ -181,9 +181,7 @@ function PANEL:OnCode(html,code)
 		self._timercreated = true
 		timer.Create(tid,0.7,1,function()
 			self._timercreated = false
-			--[[if self.Save then
-				self:Save()
-			end]]
+			-- Save
 		end)
 	end
 	

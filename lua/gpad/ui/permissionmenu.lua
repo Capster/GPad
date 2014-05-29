@@ -15,7 +15,6 @@ function PANEL:Init ()
 		self.Users = Metro.Create("MetroListView", self)
 		self.Users:Dock(TOP)
 		self.Users:SetTall(400)
-		--self.Users:SetSize(190, 10)
 		self.Users:DockMargin(0, 0, 1, 0)
 		
 		self.Users:AddColumn("Name")

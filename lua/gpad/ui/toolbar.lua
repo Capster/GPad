@@ -65,7 +65,6 @@ function GPad.AddToolbarSpacer()
 	local lab = Metro.Create("MetroLabel")
 	lab.Paint = function(self, w, h)
 		draw.RoundedBox(0, w/2, 0, 1, h, Color(180, 180, 180))
-		--draw.RoundedBox(0, 1, 0, 1, h, Color(170, 170, 170))
 	end
 	lab:SetText(" ")
 	lab:SizeToContents()
