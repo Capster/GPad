@@ -1,5 +1,5 @@
 local rect, mod, setcolor = surface.DrawRect, math.mod, surface.SetDrawColor
-local cos, sin, rad, DrawPoly, SetTexture = math.cos, math.sin, math.rad, surface.DrawPoly, surface.SetTexture
+local DrawPoly, SetTexture = surface.DrawPoly, surface.SetTexture
 
 function surface.DrawVSDotHorizontal(x, y, len, color)
 	setcolor(color or color_white)
