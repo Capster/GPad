@@ -2,7 +2,7 @@ PANEL = {}
 
 function PANEL:Init()
 	self.SnapTo = 20
-	self.SnapPoints = {1,2,5,10,20,50,100}
+	self.SnapPoints = {1, 2, 5, 10, 20, 50, 100}
 
 	self.PolygonData = {{}}
 	self.CurrentPoly = 1
@@ -58,33 +58,36 @@ function PANEL:OnMousePressed(mc)
 		table.insert(self.PolygonData[self.CurrentPoly], {x=math.RoundToNearest(self:ScreenToLocal(gui.MouseX()), self.SnapTo), y=math.RoundToNearest(self:ScreenToLocal(gui.MouseY()-15), self.SnapTo)})
 		
 	elseif mc == MOUSE_RIGHT then
-		local mnu = DermaMenu()
-			mnu:AddOption("Export", function()
+		local menu = DermaMenu()
+			menu:AddOption("Export", function()
 				self:Export()
 			end):SetIcon("icon16/application_go.png")
-			mnu:AddSpacer()
-			mnu:AddOption("Add Polygon", function()
+			menu:AddOption("Copy To Clipboard", function()
+				self:CopyToClipboard()
+			end):SetIcon("icon16/page_copy.png")	
+			menu:AddSpacer()
+			menu:AddOption("Add Polygon", function()
 				self.CurrentPoly = self.CurrentPoly + 1
 				self.PolygonData[self.CurrentPoly] = {}
 			end):SetIcon("icon16/shape_square_add.png")
-			mnu:AddOption("Clear", function()
+			menu:AddOption("Clear", function()
 				self.PolygonData[self.CurrentPoly] = {}
 			end):SetIcon("icon16/note_delete.png")
-			mnu:AddOption("Clear All", function()
+			menu:AddOption("Clear All", function()
 				self.PolygonData = {{}}
 				self.CurrentPoly = 1
 			end):SetIcon("icon16/bin_closed.png")
-			mnu:AddSpacer()
-			local snap, m = mnu:AddSubMenu("Snap To...")
+			menu:AddSpacer()
+			local snap, m = menu:AddSubMenu("Snap To...")
 			m:SetIcon("icon16/zoom.png")
 			for k,v in pairs(self.SnapPoints)do
 				snap:AddOption(v, function()
 					self.SnapTo = v
 				end)
 			end
-			mnu:AddSpacer()
-			mnu:AddOption("Cancel", function() end):SetIcon("icon16/cross.png")
-			mnu:Open()
+			menu:AddSpacer()
+			menu:AddOption("Cancel", function() end):SetIcon("icon16/cross.png")
+			menu:Open()
 	elseif mc == MOUSE_MIDDLE then
 		self:SetCursor("sizeall") -- ToDo: Free Snap
 	end
@@ -97,36 +100,11 @@ function PANEL:OnMouseReleased(mc)
 end
 
 function PANEL:Export()
-	local de = Color(200,200,200)
-	local op = Color(150,150,255)
-	local co = Color(0,128,0)
-	local ar = Color(255,255,200)
-	local fu = Color(255,132,252)
-	MsgC(op, "local ")MsgC(de, "polydata = ")MsgC(ar, "{}")
-	MsgC(co, " -- Put all this stuff OUTSIDE your paint hook.")
-	local rtrn = ""
-	for key,poly in ipairs(self.PolygonData)do
-		MsgC(de, [[
-
-   polydata[]]..key.."] =")MsgC(ar, " {} \n")
-		for key2,point in ipairs(poly)do
-		MsgC(de, [[	polydata[]]..key..[[][]]..key2..[[] = { x = ]]..point.x..[[, y = ]]..point.y..[[ }]].."\n")
-		end
-	end
-	Msg(rtrn)
-	MsgC(fu, "table.foreachi") 
-	MsgC(de, "(polydata, ")
-	MsgC(op, "function")
-	MsgC(de, "(k,v) ")
-	MsgC(fu, "surface.DrawPoly")
-	MsgC(de, "(v) ")
-	MsgC(op, "end")
-	MsgC(de, ")")
-	MsgC(co, " -- Put this in your paint hook.\n")
+	MsgC(Color(255,255,200), self:Compile())
 	RunConsoleCommand("showconsole")
 end
 
-function PANEL:CopyToClipboard()
+function PANEL:Compile()
 	local rtrn = "local polydata = {}"
 	for key,poly in ipairs(self.PolygonData) do
 		rtrn = rtrn..[[
@@ -138,7 +116,12 @@ function PANEL:CopyToClipboard()
 		polydata[]]..key..[[][]]..key2..[[] = { x = ]]..point.x..[[, y = ]]..point.y..[[ }]]
 		end
 	end
-	SetClipboardText(rtrn.." --Put all this stuff OUTSIDE your paint hook.\n\ntable.foreachi(polydata, function(k,v) surface.DrawPoly(v) end) --Put this in your paint hook.")
+	return rtrn.." --Put all this stuff OUTSIDE your paint hook.\n\ntable.foreachi(polydata, function(k,v) surface.DrawPoly(v) end) --Put this in your paint hook."
+end
+
+function PANEL:CopyToClipboard()
+	GPad:PrintDebug("Copied to Clipboard")
+	SetClipboardText(self:Compile())
 end
 
 Metro.Register("GPadMetroEditor", PANEL, "DPanel")
