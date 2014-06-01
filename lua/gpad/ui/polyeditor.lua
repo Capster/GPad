@@ -12,12 +12,12 @@ end
 function PANEL:PaintOver(w,h)
 		
 	for k,poly in ipairs(self.PolygonData)do
-			surface.SetTextColor(255,255,255,255)
+			surface.SetTextColor(100,100,100,255)
 			for k1,point in ipairs(poly)do
 				surface.SetTextPos(point.x-35, point.y-50)
 				surface.SetFont("MetroSmall")
 				surface.DrawText("x: "..point.x.."; y: "..point.y)
-				draw.RoundedBox(4, point.x-2, point.y-2, 5, 5, Color(0,200,0,100))
+				draw.RoundedBox(4, point.x-2, point.y-2, 5, 5, Color(0, 120, 205, 255))
 			end
 			
 			local polygoncopy = {}
@@ -26,13 +26,13 @@ function PANEL:PaintOver(w,h)
 				table.insert(polygoncopy, {x=math.RoundToNearest(self:ScreenToLocal(gui.MouseX()), self.SnapTo), y=math.RoundToNearest(self:ScreenToLocal(gui.MouseY()-15), self.SnapTo)})
 			end
 			draw.NoTexture()
-			surface.SetDrawColor(0,0,200,180)
+			surface.SetDrawColor(0, 120, 205,180)
 			surface.DrawPoly(polygoncopy)			
 	end
 	
-	draw.RoundedBox(4, math.RoundToNearest(self:ScreenToLocal(gui.MouseX()), self.SnapTo)-2, math.RoundToNearest(self:ScreenToLocal(gui.MouseY()-15), self.SnapTo)-2, 5, 5, Color(200,0,0,200))
+	draw.RoundedBox(4, math.RoundToNearest(self:ScreenToLocal(gui.MouseX()), self.SnapTo)-2, math.RoundToNearest(self:ScreenToLocal(gui.MouseY()-15), self.SnapTo)-2, 5, 5, Color(105, 32, 122))
 	
-	surface.SetTextColor(255,255,255,255)
+	surface.SetTextColor(100,100,100,255)
 	surface.SetFont("MetroSmall")
 	surface.SetTextPos(10, 20)
 	surface.DrawText("x: "..math.RoundToNearest(self:ScreenToLocal(gui.MouseX()), self.SnapTo).."; y: "..math.RoundToNearest(self:ScreenToLocal(gui.MouseY()-15), self.SnapTo))
@@ -44,7 +44,7 @@ end
 
 function PANEL:Paint(w,h)
 	draw.NoTexture()
-	surface.SetDrawColor(60,60,60,255)
+	surface.SetDrawColor(240, 240, 240, 255)
 	surface.DrawRect(0,0,w,h)
 	
 	surface.SetDrawColor(100,100,100,150)
@@ -56,7 +56,7 @@ end
 function PANEL:OnMousePressed(mc)
 	if mc == MOUSE_LEFT then
 		table.insert(self.PolygonData[self.CurrentPoly], {x=math.RoundToNearest(self:ScreenToLocal(gui.MouseX()), self.SnapTo), y=math.RoundToNearest(self:ScreenToLocal(gui.MouseY()-15), self.SnapTo)})
-		--PrintTable(self.PolygonData)
+		
 	elseif mc == MOUSE_RIGHT then
 		local mnu = DermaMenu()
 			mnu:AddOption("Export", function()
@@ -142,29 +142,3 @@ function PANEL:CopyToClipboard()
 end
 
 Metro.Register("GPadMetroEditor", PANEL, "DPanel")
-
-
-
-function math.RoundToNearest(num, point)
-	num = math.Round(num)
-	local possible = {min=0, max=0}
-	for i=1, point do
-		if math.IsDivisible(num+i, point) then
-			possible.max = num+i
-		end
-		if math.IsDivisible(num-i, point) then
-			possible.min = num-i
-		end
-	end
-	
-	if possible.max - num <= num - possible.min then
-		return possible.max
-	else
-		return possible.min
-	end
-	
-end
-
-function math.IsDivisible(divisor, dividend)
-	return math.fmod(divisor, dividend) == 0
-end
