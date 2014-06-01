@@ -27,21 +27,25 @@ function PANEL:PaintOver(w,h)
 			end
 			draw.NoTexture()
 			surface.SetDrawColor(0,0,200,180)
-			surface.DrawPoly(polygoncopy)
+			surface.DrawPoly(polygoncopy)			
 	end
 	
 	draw.RoundedBox(4, math.RoundToNearest(self:ScreenToLocal(gui.MouseX()), self.SnapTo)-2, math.RoundToNearest(self:ScreenToLocal(gui.MouseY()-15), self.SnapTo)-2, 5, 5, Color(200,0,0,200))
+	
+	surface.SetTextColor(255,255,255,255)
+	surface.SetFont("MetroSmall")
+	surface.SetTextPos(10, 20)
+	surface.DrawText("x: "..math.RoundToNearest(self:ScreenToLocal(gui.MouseX()), self.SnapTo).."; y: "..math.RoundToNearest(self:ScreenToLocal(gui.MouseY()-15), self.SnapTo))
+	surface.SetTextPos(10, 35)
+	surface.DrawText("Current Poly: "..#self.PolygonData[self.CurrentPoly])
+	surface.SetTextPos(10, 50)
+	surface.DrawText("All Polygons: "..#self.PolygonData)
 end
 
 function PANEL:Paint(w,h)
 	draw.NoTexture()
 	surface.SetDrawColor(60,60,60,255)
 	surface.DrawRect(0,0,w,h)
-	
-	surface.SetTextPos(math.RoundToNearest(self:ScreenToLocal(gui.MouseX()), self.SnapTo)-35, math.RoundToNearest(self:ScreenToLocal(gui.MouseY()-15), self.SnapTo)-50)
-	surface.SetTextColor(255,255,255,255)
-	surface.SetFont("MetroSmall")
-	surface.DrawText("x: "..math.RoundToNearest(self:ScreenToLocal(gui.MouseX()), self.SnapTo).."; y: "..math.RoundToNearest(self:ScreenToLocal(gui.MouseY()-15), self.SnapTo))
 	
 	surface.SetDrawColor(100,100,100,150)
 	for i=self.SnapTo, ScrW(), self.SnapTo do
@@ -81,6 +85,14 @@ function PANEL:OnMousePressed(mc)
 			mnu:AddSpacer()
 			mnu:AddOption("Cancel", function() end):SetIcon("icon16/cross.png")
 			mnu:Open()
+	elseif mc == MOUSE_MIDDLE then
+		self:SetCursor("sizeall") -- ToDo: Free Snap
+	end
+end
+
+function PANEL:OnMouseReleased(mc)
+	if mc == MOUSE_MIDDLE then
+		self:SetCursor("arrow")
 	end
 end
 
