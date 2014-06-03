@@ -92,7 +92,6 @@ GPad.Themes = PANEL.Themes
 
 function PANEL:Init()
 	self.Content = ""
-	self.filename = "lua_editor_save.txt"
 	self.m_bSaving = true
 	self:SetCookieName("lua_editor")
 	local theme = self:GetCookie("theme")
@@ -101,7 +100,6 @@ function PANEL:Init()
 	hook.Add("ShutDown", self,function()
 		if not ValidPanel(self) or not self.HTML then return end
 	end)
-
 end
 
 
@@ -125,7 +123,7 @@ function PANEL:InitRest()
 		HTML:Dock( FILL )
 			
 		HTML.OnKeyCodePressed=function(HTML,code)
-			if code==KEY_F5 then
+			if code == KEY_F5 then
 				local full=input.IsButtonDown(KEY_LCONTROL)
 				self:ReloadPage(full)
 			end
@@ -158,6 +156,7 @@ end
 
 function PANEL:alert(str)
 	Derma_Message(str, "Alert", "OK")
+	MsgC(Color(185, 100, 185), "[JS:Alert] ") MsgC(color_white, str.."\n")
 end
 
 function PANEL:ReloadPage(full)
@@ -206,8 +205,8 @@ function PANEL:Think()
 	end
 end
 
-function PANEL:SetFontSize( font_size )
-	font_size=tonumber(font_size)
+function PANEL:SetFontSize(font_size)
+	font_size = tonumber(font_size)
 	if not font_size then return false end
 	self.font_size = font_size
 	self:SetCookie("font_size",font_size)
@@ -336,9 +335,12 @@ end
 function PANEL:ShowBinds()
 	self.HTML:Call("ShowBinds()")
 end
+
 function PANEL:ShowMenu()
 	self.HTML:Call("ShowMenu()")
 end
+
+PANEL.GetHelp = PANEL.ShowBinds
 
 function PANEL:SetMode(mode)
 	if table.HasValue(self.Modes,mode) then
@@ -353,7 +355,6 @@ end
 
 
 function PANEL:GoErrorLine()
-
 	if not self.HTML or not self.errorline then return false end
 	local str="GotoLine(" .. self.errorline .. ");"
 	self.HTML:Call(str)
@@ -371,35 +372,26 @@ function PANEL:SetError(err)
 		self.errorline=match and tonumber(match) or 1
 		self:SetErr(self.errorline,err)
 	else
-		self.errorline=0
+		self.errorline = 0
 		self:ClearErr()
 	end
 end
 
 
-function PANEL:Save( )
+function PANEL:Save()
 	if self:GetReady() then
-		local code=self:GetCode()
-		self:Store( code )
+		return
 	end
 end
 
-function PANEL:Store( code )
-	if code and code:len()>=0 and true then
-		file.Write(self.filename,code)
-		return true
-	elseif file.Exists(self.filename) then
-		file.Delete(self.filename)
-		return false
-	end
+function PANEL:Store(code)
 	return false
 end
 
-function PANEL:Load()
-
-	local data = file.Read(self.filename)
-	if data and #data>0 then
-		self:SetCode( data )
+function PANEL:Load(strPath)
+	local data = file.Read(strPath, "GAME")
+	if data and #data > 0 then
+		self:SetCode(data)
 	end
 end
 
