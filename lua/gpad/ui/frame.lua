@@ -234,6 +234,7 @@ end
 
 function PANEL:PerformLayout ()
 	-- ToDo: Remove eet
+	self.btnMinim:InvalidateLayout()
 	self.btnClose:InvalidateLayout()
 	self.btnMaxim:InvalidateLayout()
 	self.lblTitle:SetPos( 8, 2 )
