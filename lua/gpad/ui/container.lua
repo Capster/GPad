@@ -6,36 +6,50 @@ function PANEL:Init ()
 	self.Driver:Dock(FILL)
 
 	self[GPad.Orientation.Top] = Metro.Create("GPadPropertySheet")
-	self[GPad.Orientation.Bottom] = Metro.Create("GPadPropertySheetDown")
+	self.ControlPanel = Metro.Create("GPadPropertySheetDown")
 	
 	self.Driver:SetTop( self[GPad.Orientation.Top] )
-	self.Driver:SetBottom( self[GPad.Orientation.Bottom] )
+	self.Driver:SetBottom( self.ControlPanel )
 	self.Driver:SetCookieName("container_driver")
 	local TopHeight = self.Driver:GetCookie("TopHeight")
 	self.Driver:SetTopHeight(tonumber(TopHeight) or 750)
 	self.Docks = {}
-	GPad.Debug = self:AddTab("Debug", "Debug", content, GPad.Orientation.Bottom)
-	GPad.Output = self:AddTab("Output", "Output", content, GPad.Orientation.Bottom)
-	self:AddTab("Code", "New", content, GPad.Orientation.Top)
-	--self:AddTab("Image", "error.png", content, GPad.Orientation.Top)
-	--self:AddTab("Image", "error.png", content, GPad.Orientation.Top)
-	--self:AddTab("HTMLPage", "Google", content, GPad.Orientation.Top)
-	self:AddTab("PolyEditor", "New Poly", content, GPad.Orientation.Top)
+
+	local file = GPad.FileTypes:GetType("Debug")
+	local dock = file:Init()
 	
-	self:AddTab("Code", "New", content, GPad.Orientation.Top)
-	self:AddTab("Model", "New", "models/props_c17/oildrum001.mdl", GPad.Orientation.Top)
-	self:AddTab("Code", "New", content, GPad.Orientation.Top)
+	self.ControlPanel:AddSheet( "Debug", dock, file.Icon, false, false )
+	
+	local file = GPad.FileTypes:GetType("Output")
+	local dock = file:Init()
+	
+	self.ControlPanel:AddSheet( "Output", dock, file.Icon, false, false )
+	
+	local tbl = GPad:LoadSession()
+	if #tbl == 0 then self:AddTab("Code", "New", content, GPad.Orientation.Top) end
+	for k,v in pairs(tbl) do
+		self:AddTab(v.Type, v.Name, v.Content, GPad.Orientation.Top)
+	end
 end
 
-function PANEL:AddTab(strType, strnName, content, enumOrientation)
+function PANEL:New()
+	local panelNew = self:AddTab("Code", "New", content, GPad.Orientation.Top)
+	return panelNew
+end
+
+
+function PANEL:AddTab(strType, strName, Content, enumOrientation)
 	local file = GPad.FileTypes:GetType(strType)
-	local dock = file:Init(content)
+	local dock = file:Init(Content)
 	
 	dock.TypeX = strType
 	dock.Orientation = enumOrientation
 	
+	GPad.Docks[dock] = {Type = strType, Name = strName, Content = Content}
+	
 	self.Docks[#self.Docks+1] = dock
-	self[enumOrientation]:AddSheet( strnName, dock, file.Icon, false, false )
+	
+	self[enumOrientation]:AddSheet( strName, dock, file.Icon, false, false )
 	
 	return dock
 end
