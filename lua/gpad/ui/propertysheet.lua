@@ -85,11 +85,13 @@ function PANEL:DoRightClick()
 	local menu = DermaMenu()
 	menu:AddOption("Close", function()
 		self:GetPropertySheet():CloseTab( self, true )
+		GPad.Docks[self:GetPropertySheet()] = nil
 	end):SetIcon ("icon16/tab_delete.png")
 	
 	menu:AddOption("CloseAll", function() 
 		for k,v in pairs(self:GetPropertySheet().Items) do
 			self:GetPropertySheet():CloseTab( v.Tab, true )
+			GPad.Docks[self:GetPropertySheet()] = nil
 		end
 	end):SetIcon ("icon16/tab_delete.png")
 	menu:Open()
