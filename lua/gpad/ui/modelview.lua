@@ -46,7 +46,7 @@ function PANEL:SetModel(strModelName)
 		self.Entity = nil		
 	end
 	
-	if not file.Exists(strModelName, "GAME") then
+	if not file.Exists(strModelName or "!!!", "GAME") then
 		strModelName = "models/error.mdl"
 	end
 	
