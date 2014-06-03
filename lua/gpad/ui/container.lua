@@ -23,7 +23,8 @@ function PANEL:Init ()
 	self:AddTab("PolyEditor", "New Poly", content, GPad.Orientation.Top)
 	
 	self:AddTab("Code", "New", content, GPad.Orientation.Top)
-	self:AddTab("Code", "New", content, GPad.Orientation.Top)
+	self:AddTab("Model", "New", content, GPad.Orientation.Top)
+	self:AddTab("Code", "New", "models/props_c17/oildrum001.mdl", GPad.Orientation.Top)
 end
 
 function PANEL:AddTab(strType, strnName, content, enumOrientation)
