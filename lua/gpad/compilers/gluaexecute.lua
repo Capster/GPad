@@ -1,12 +1,5 @@
 GPad.GLua = {}
 
-local function gpad_stamp()
---[[
-	MsgC(Color(200, 200, 200), "[")
-	MsgC(Color(160, 160, 160), "GPad")
-	MsgC(Color(200, 200, 200), "]")]]
-end
-
 function GPad.GLua:SessionStart(strCode, lineBreakPoint)
 	if lineBreakPoint then
 		local tblCode = string.Explode("\n", strCode)
