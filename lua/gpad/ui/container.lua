@@ -5,10 +5,10 @@ function PANEL:Init ()
 	self.Driver = Metro.Create( "DVerticalDivider", self )
 	self.Driver:Dock(FILL)
 
-	self[GPad.Orientation.Top] = Metro.Create("GPadPropertySheet")
+	self[1] = Metro.Create("GPadPropertySheet")
 	self.ControlPanel = Metro.Create("GPadPropertySheetDown")
 	
-	self.Driver:SetTop( self[GPad.Orientation.Top] )
+	self.Driver:SetTop( self[1] )
 	self.Driver:SetBottom( self.ControlPanel )
 	self.Driver:SetCookieName("container_driver")
 	local TopHeight = self.Driver:GetCookie("TopHeight")
@@ -26,14 +26,14 @@ function PANEL:Init ()
 	self.ControlPanel:AddSheet( "Output", dock, file.Icon, false, false )
 	
 	local tbl = GPad:LoadSession()
-	if #tbl == 0 then self:AddTab("Code", "New", content, GPad.Orientation.Top) end
+	if #tbl == 0 then self:AddTab("Code", "New", content, 1) end
 	for k,v in pairs(tbl) do
-		self:AddTab(v.Type, v.Name, v.Content, GPad.Orientation.Top)
+		self:AddTab(v.Type, v.Name, v.Content, 1)
 	end
 end
 
 function PANEL:New()
-	local panelNew = self:AddTab("Code", "New", content, GPad.Orientation.Top)
+	local panelNew = self:AddTab("Code", "New", content, 1)
 	return panelNew
 end
 
