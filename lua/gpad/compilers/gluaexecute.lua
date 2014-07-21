@@ -1,5 +1,15 @@
 GPad.GLua = {}
 
+function GPad.GLua:OverrideOutput(funcFunction)
+	local funcOldFunction = funcFunction
+	dumpFunction = function(...)
+		GPad.PrintDebug(_, ...)
+		funcOldFunction(...)
+	end
+	return dumpFunction
+end
+
+
 function GPad.GLua:SessionStart(strCode, lineBreakPoint)
 	if lineBreakPoint then
 		local tblCode = string.Explode("\n", strCode)
@@ -10,57 +20,30 @@ function GPad.GLua:SessionStart(strCode, lineBreakPoint)
 		strCode = table.concat(tblCode, "\n")
 	end
 	
-	local code = ""
-	code = code .. "local ErrorNoHalt = ErrorNoHalt "
-	code = code .. "local Msg         = Msg "
-	code = code .. "local MsgN        = MsgN "
-	code = code .. "local MsgC        = MsgC "
-	code = code .. "local print       = print "
-	code = code .. strCode
+	local tblCode = {
+		"local ErrorNoHalt = GPad.GLua:OverrideOutput(ErrorNoHalt)",
+		"local Msg         = GPad.GLua:OverrideOutput(Msg)",
+		"local MsgN        = GPad.GLua:OverrideOutput(MsgN)",
+		"local MsgC        = GPad.GLua:OverrideOutput(MsgC)",
+		"local print       = GPad.GLua:OverrideOutput(print)",
+		strCode,
+	}
 	
-	local f = CompileString(code, (LocalPlayer().GetUserGroup and LocalPlayer():GetUserGroup() or "developer").."_"..LocalPlayer():Nick())
+	local strCode = table.concat(tblCode, " \n")
 
-	local old_ErrorNoHalt = ErrorNoHalt
-	local old_Msg         = Msg
-	local old_MsgN        = MsgN
-	local old_MsgC        = MsgC
-	local old_print       = print
+	local usergroup = LocalPlayer().GetUserGroup and LocalPlayer():GetUserGroup() or "developer"
+	local nick = LocalPlayer():Nick() 
+
+	local f = CompileString(strCode, usergroup.."_"..nick)
 	
 	GPad.Output:Clear()
 	
 	local id = util.CRC(strCode)
-	
-	ErrorNoHalt = function(text)
-		GPad.Warning(_, text)
-		old_ErrorNoHalt(text)
-	end
-	Msg = function(text)
-		GPad.PrintDebug(_, text)
-		old_Msg(text)
-	end
-	MsgN = function(text)
-		GPad.PrintDebug(_, text)
-		old_MsgN(text)
-	end
-	MsgC = function(color, ...)
-		GPad.PrintDebug(_, ...)
-		old_MsgC(color, ...)
-	end
-	print = function(text)
-		GPad.PrintDebug(_, text)
-		old_print(text)
-	end
 
 	xpcall(f, function(message)
 		GPad.Error(_, message) -- ToDo: Stack trace
 		old_ErrorNoHalt(message)
 	end)
-
-	ErrorNoHalt = old_ErrorNoHalt
-	Msg         = old_Msg
-	MsgN        = old_MsgN
-	MsgC        = old_MsgC
-	print       = old_print
 	
 	return id
 end
